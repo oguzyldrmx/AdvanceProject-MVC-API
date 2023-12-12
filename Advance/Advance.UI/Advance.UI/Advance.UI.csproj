@@ -8,4 +8,10 @@
     <Folder Include="Filters\" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <PackageReference Include="bootstrap" Version="5.3.2" />
+  </ItemGroup>
+
+
 </Project>
