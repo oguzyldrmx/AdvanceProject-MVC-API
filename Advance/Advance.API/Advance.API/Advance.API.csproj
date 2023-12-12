@@ -5,13 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Filters\" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
-
 
   <ItemGroup>
-    <PackageReference Include="bootstrap" Version="5.3.2" />
+    <Folder Include="Filters\" />
+    <Folder Include="Middleware\" />
   </ItemGroup>
-
 
 </Project>
