@@ -8,8 +8,6 @@ namespace Advance.Model.Entities
 {
     public class BaseEntity
     {
-        public int id { get; set; }
 
-        public string name { get; set; }
     }
 }
