@@ -5,7 +5,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Advance.ApplicationLayer.DTOs
+namespace Advance.DTOs
 {
     public class BaseDTO
     {

@@ -13,4 +13,9 @@
     <Folder Include="Middleware\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Advance.ApplicationLayer\Advance.ApplicationLayer.csproj" />
+    <ProjectReference Include="..\Advance.DAL\Advance.DAL.csproj" />
+  </ItemGroup>
+
 </Project>

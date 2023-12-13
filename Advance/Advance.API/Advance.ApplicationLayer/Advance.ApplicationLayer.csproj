@@ -5,10 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstract\" />
-    <Folder Include="Concrete\" />
-    <Folder Include="Mapper\" />
     <Folder Include="Validations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Advance.DAL\Advance.DAL.csproj" />
+    <ProjectReference Include="..\Advance.Model\Advance.Model.csproj" />
   </ItemGroup>
 
 </Project>
