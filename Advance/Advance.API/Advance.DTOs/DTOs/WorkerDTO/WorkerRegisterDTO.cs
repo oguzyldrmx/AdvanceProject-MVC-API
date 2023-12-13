@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace Advance.DTOs.DTOs.WorkerDTO
 {
-    public class WorkerInsertDTO
+    public class WorkerRegisterDTO
     {
         public string WorkerName { get; set; }
         public string WorkerEmail { get; set; }
+        public string password { get; set; }
         public string WorkerPhonenumber { get; set; }
         public int UpperWorkerID { get; set; }
         public int UnitID { get; set; }
         public int TitleID { get; set; }
 
+        
     }
 }
