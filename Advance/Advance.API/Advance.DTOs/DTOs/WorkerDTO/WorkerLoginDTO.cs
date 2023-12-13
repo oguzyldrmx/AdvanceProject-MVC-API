@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Advance.DTOs.DTOs.WorkerDTO
 {
-    public class WorkerLoginDTO
+    public record WorkerLoginDTO
     {
         public string WorkerEmail { get; set; }
         public string password { get; set; }
