@@ -16,6 +16,9 @@ using Advance.ApplicationLayer.Mapper;
 using Advance.DAL.Abstract;
 using Advance.DAL.Concrete;
 using Advance.DAL.Context;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Advance.API
 {
@@ -34,17 +37,39 @@ namespace Advance.API
             services.AddSingleton<ConnectionHelper>();
             services.AddScoped<IWorkerManager, WorkerManager>();
             services.AddScoped<IWorkerDAL, WorkerDAL>();
+            services.AddScoped<IAuthDAL, AuthDAL>();
+            services.AddScoped<IAuthManager, AuthManager>();
             services.AddScoped<MyMapper>();
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Advance.API", Version = "v1" });
             });
+
+            services.AddCors(opt =>
+            {
+                opt.AddDefaultPolicy(a => a.WithOrigins().AllowAnyHeader().AllowAnyMethod());
+            });
+            //apisecretkey
+            var gizliBilgi = Encoding.ASCII.GetBytes(Configuration.GetSection("apisecretKey").Value);
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    IssuerSigningKey = new SymmetricSecurityKey(gizliBilgi),
+                    ValidateIssuer = true,
+                    ValidateIssuerSigningKey = true,
+                };
+            });
+            services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors();
+            app.UseCors(builder => builder.WithOrigins("http://localhost:48868").AllowAnyHeader().AllowAnyMethod());
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -53,6 +78,7 @@ namespace Advance.API
             }
 
             app.UseRouting();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

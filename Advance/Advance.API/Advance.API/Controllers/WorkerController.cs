@@ -1,11 +1,16 @@
-﻿using System.Threading.Tasks;
-using Advance.ApplicationLayer.Abstract;
+﻿using Advance.ApplicationLayer.Abstract;
 using Advance.DTOs.DTOs.WorkerDTO;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Advance.API.Controllers
 {
-    public class WorkerController : Controller
+    //[Authorize]
+    [Route("api/[controller]")]
+    [ApiController]
+    public class WorkerController : ControllerBase
     {
         private readonly IWorkerManager _workerManager;
 
@@ -14,18 +19,16 @@ namespace Advance.API.Controllers
             _workerManager = workerManager;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+
         [HttpGet("getworkers")]
         public async Task<IActionResult> GetWorkers()
         {
             var data = await _workerManager.GetWorkers();
-            if(data==null)
+            if (data == null)
                 return NotFound();
             return Ok(data);
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetWorker(int id)
         {
@@ -33,11 +36,13 @@ namespace Advance.API.Controllers
             {
                 return NotFound();
             }
+
             var data = await _workerManager.GetWorker(id);
             if (data == null)
                 return NotFound();
             return Ok(data);
         }
+
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteWorker(int id)
         {
@@ -45,13 +50,15 @@ namespace Advance.API.Controllers
             {
                 return NotFound();
             }
+
             var data = await _workerManager.DeleteWorker(id);
             if (data == 0)
                 return BadRequest();
             return Ok(data);
         }
+
         [HttpPost("add")]
-        public async Task<IActionResult> AddWorker([FromBody]WorkerInsertDTO dto)
+        public async Task<IActionResult> AddWorker([FromBody] WorkerInsertDTO dto)
         {
             if (dto == null)
                 return BadRequest();
@@ -60,8 +67,9 @@ namespace Advance.API.Controllers
                 return BadRequest();
             return Ok(data);
         }
+
         [HttpPatch("update")]
-        public async Task<IActionResult> UpdateWorker([FromBody]WorkerUpdateDTO dto)
+        public async Task<IActionResult> UpdateWorker([FromBody] WorkerUpdateDTO dto)
         {
             if (dto == null)
                 return BadRequest();

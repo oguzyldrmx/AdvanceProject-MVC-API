@@ -22,7 +22,8 @@ namespace Advance.ApplicationLayer.Mapper
                  .ForMember(dest => dest.TitleDTO, opt => opt.MapFrom(src => src.Title));
             CreateMap<WorkerInsertDTO, Worker>().ReverseMap();
             CreateMap<WorkerUpdateDTO, Worker>().ReverseMap();
-            //CreateMap<UnitWorkerDto, Unit>().ReverseMap();
+            CreateMap<WorkerRegisterDTO, Worker>().ReverseMap();
+            CreateMap<WorkerLoginDTO, Worker>().ReverseMap();
             CreateMap<TitleDTO, Title>().ReverseMap();
             CreateMap<UnitDTO, Unit>().ReverseMap();
             MapperConfiguration = new MapperConfiguration(cfg =>

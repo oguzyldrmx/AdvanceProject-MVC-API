@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Advance.DAL\Advance.DAL.csproj" />
+    <ProjectReference Include="..\Advance.ExceptionHandling\Advance.ExceptionHandling.csproj" />
     <ProjectReference Include="..\Advance.Model\Advance.Model.csproj" />
   </ItemGroup>
 
