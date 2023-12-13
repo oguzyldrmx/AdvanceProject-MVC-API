@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Advance.DTOs
 {
-    public class BaseDTO
+    public record BaseDTO
     {
     }
 }
