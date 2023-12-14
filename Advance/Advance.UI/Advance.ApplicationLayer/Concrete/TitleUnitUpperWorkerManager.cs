@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Advance.ApplicationLayer.Abstract;
-using Advance.DTOs.TitleUnitUpperWorkerDTOs;
+using Advance.DTOs.DTOs.TitleUnitUpperWorkerDTOs;
 using Advance.Services.ApiConnectServices;
 
 namespace Advance.ApplicationLayer.Concrete

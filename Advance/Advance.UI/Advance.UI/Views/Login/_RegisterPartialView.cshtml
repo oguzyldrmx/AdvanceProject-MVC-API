@@ -1,0 +1,47 @@
+﻿
+@model WorkerRegisterDTO
+@{
+    Layout = null;
+}
+@{
+    List<TitleDTO> titleList = (List<TitleDTO>)ViewData["titles"];
+    List<UnitDTO> unitList = (List<UnitDTO>)ViewData["units"];
+    List<UpperWorkerDTO> upperWorkerList = (List<UpperWorkerDTO>)ViewData["upperworkers"];
+}
+<div class="form-container sign-up">
+    <form method="post" asp-action="Register" asp-controller="Login">
+        @Html.AntiForgeryToken()
+        <h1>Hesap Oluştur</h1>
+
+        <input type="text" asp-for="WorkerName" placeholder="İsim">
+        <input type="email" asp-for="WorkerEmail" placeholder="Email">
+        <input type="password" asp-for="password" placeholder="Şifre">
+        <input type="number" asp-for="WorkerPhonenumber" placeholder="Telefon">
+
+        <select asp-for="UnitID" class="form-control">
+            <option value="0">Birim Seciniz</option>
+            @foreach (UnitDTO item in unitList)
+            {
+                <option value="@item.UnitID">@item.UnitName</option>
+            }
+        </select>
+
+        <select asp-for="TitleID" class="form-control">
+            <option value="0">Unvan Seciniz</option>
+            @foreach (TitleDTO item in titleList)
+            {
+                <option value="@item.TitleID">@item.TitleName</option>
+            }
+        </select>
+        <select asp-for="UpperWorkerID" class="form-control">
+            <option value="0">Müdür Seciniz</option>
+            @foreach (UpperWorkerDTO item in upperWorkerList)
+            {
+                <option value="@item.WorkerID">@item.WorkerName</option>
+            }
+        </select>
+
+
+        <button type="submit">Kayıt ol</button>
+    </form>
+</div>

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Advance.DTOs.TitleDTOs;
-using Advance.DTOs.TitleUnitUpperWorkerDTOs;
-using Advance.DTOs.UnitDTOs;
+using Advance.DTOs.DTOs.TitleDTOs;
+using Advance.DTOs.DTOs.TitleUnitUpperWorkerDTOs;
+using Advance.DTOs.DTOs.UnitDTOs;
 
 namespace Advance.Services.ApiConnectServices
 {

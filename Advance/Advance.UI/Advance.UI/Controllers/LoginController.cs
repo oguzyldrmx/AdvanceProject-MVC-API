@@ -22,8 +22,19 @@ namespace Advance.UI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
+            var datas = await _titleUnitUpperWorkerManager.GetTitleUnitUpperWorkers();
+
+            if (datas == null)
+            {
+                TempData["result"] = "Başarısız";
+                return View();
+            }
+
+            ViewData["titles"] = datas.Tittles;
+            ViewData["units"] = datas.Units;
+            ViewData["upperworkers"] = datas.UpperWorkers;
             return View();
         }
 
@@ -54,22 +65,7 @@ namespace Advance.UI.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Register()
-        {
-            var datas = await _titleUnitUpperWorkerManager.GetTitleUnitUpperWorkers();
-
-            if (datas == null)
-            {
-                TempData["result"] = "Başarısız";
-                return View();
-            }
-
-            ViewData["titles"] = datas.Tittles;
-            ViewData["units"] = datas.Units;
-            ViewData["upperworkers"] = datas.UpperWorkers;
-            return View();
-        }
+      
 
 
         [HttpPost]
@@ -80,7 +76,7 @@ namespace Advance.UI.Controllers
             if (data == "Başarısız")
             {
                 TempData["result"] = data;
-                return View();
+                return RedirectToAction("Login","Login");
             }
             TempData["result"] = data;
             return RedirectToAction("Login", "Login");
