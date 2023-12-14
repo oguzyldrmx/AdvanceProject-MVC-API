@@ -14,4 +14,10 @@
   </ItemGroup>
 
 
+  <ItemGroup>
+    <ProjectReference Include="..\Advance.ApplicationLayer\Advance.ApplicationLayer.csproj" />
+    <ProjectReference Include="..\Advance.Services\Advance.Services.csproj" />
+  </ItemGroup>
+
+
 </Project>

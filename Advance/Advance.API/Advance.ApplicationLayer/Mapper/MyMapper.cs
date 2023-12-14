@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using Advance.DTOs;
-using Advance.DTOs.DTOs.WorkerDTO;
+using Advance.DTOs.DTOs.TitleDTOs;
+using Advance.DTOs.DTOs.UnitDTOs;
+using Advance.DTOs.DTOs.WorkerDTOs;
 using Advance.Model.Entities;
 using AutoMapper;
 

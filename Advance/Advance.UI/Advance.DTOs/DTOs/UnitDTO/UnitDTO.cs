@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Advance.DTOs
+namespace Advance.DTOs.UnitDTOs
 {
     public record UnitDTO
     {

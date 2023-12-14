@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Advance.ApplicationLayer.Abstract;
 using Advance.ApplicationLayer.Mapper;
 using Advance.DAL.Abstract;
-using Advance.DTOs.DTOs.WorkerDTO;
+using Advance.DTOs.DTOs.WorkerDTOs;
 using Advance.Model.Entities;
 
 namespace Advance.ApplicationLayer.Concrete
@@ -16,10 +16,10 @@ namespace Advance.ApplicationLayer.Concrete
         private readonly IWorkerDAL _dal;
         private readonly MyMapper _mapper;
 
-        public WorkerManager(IWorkerDAL dal)
+        public WorkerManager(IWorkerDAL dal, MyMapper mapper)
         {
             _dal = dal ?? throw new ArgumentNullException(nameof(dal));
-            _mapper = new MyMapper();
+            _mapper = mapper;
         }
 
 

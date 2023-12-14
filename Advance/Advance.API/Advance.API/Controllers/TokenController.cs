@@ -1,5 +1,5 @@
 ﻿using Advance.ApplicationLayer.Abstract;
-using Advance.DTOs.DTOs.WorkerDTO;
+using Advance.DTOs.DTOs.WorkerDTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -16,7 +16,7 @@ namespace Advance.API.Controllers
         {
             _authManager = authManager;
         }
-        [HttpPost("login")]
+        [HttpPost("~/api/login")]
         public async Task<IActionResult> Login([FromBody] WorkerLoginDTO worker)
         {
 
@@ -24,7 +24,7 @@ namespace Advance.API.Controllers
             return Ok(data);
 
         }
-        [HttpPost("register")]
+        [HttpPost("~/api/register")]
         public async Task<IActionResult> Register([FromBody] WorkerRegisterDTO worker)
         {
 
