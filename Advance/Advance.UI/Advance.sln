@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advance.UI", "Advance.UI\Ad
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advance.Services", "Advance.Services\Advance.Services.csproj", "{F80B775A-7B8C-47DA-BA56-5B4B4B1F28CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advance.ApplicationLayer", "Advance.ApplicationLayer\Advance.ApplicationLayer.csproj", "{EEA5022E-A5DB-4845-AF91-B27F486707E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advance.ApplicationLayer", "Advance.ApplicationLayer\Advance.ApplicationLayer.csproj", "{EEA5022E-A5DB-4845-AF91-B27F486707E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advance.ExceptionHandling", "Advance.ExceptionHandling\Advance.ExceptionHandling.csproj", "{236F130B-5DEB-4AA6-8137-3F18054B9F2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advance.ExceptionHandling", "Advance.ExceptionHandling\Advance.ExceptionHandling.csproj", "{236F130B-5DEB-4AA6-8137-3F18054B9F2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advance.DTOs", "Advance.DTOs\Advance.DTOs.csproj", "{8DD3D4C7-5C5F-4AE7-82A0-593F8B870F96}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{236F130B-5DEB-4AA6-8137-3F18054B9F2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{236F130B-5DEB-4AA6-8137-3F18054B9F2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{236F130B-5DEB-4AA6-8137-3F18054B9F2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DD3D4C7-5C5F-4AE7-82A0-593F8B870F96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DD3D4C7-5C5F-4AE7-82A0-593F8B870F96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DD3D4C7-5C5F-4AE7-82A0-593F8B870F96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DD3D4C7-5C5F-4AE7-82A0-593F8B870F96}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

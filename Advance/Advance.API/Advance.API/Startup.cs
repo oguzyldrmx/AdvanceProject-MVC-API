@@ -17,6 +17,7 @@ using Advance.DAL.Abstract;
 using Advance.DAL.Concrete;
 using Advance.DAL.Context;
 using System.Text;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -39,6 +40,8 @@ namespace Advance.API
             services.AddScoped<IWorkerDAL, WorkerDAL>();
             services.AddScoped<IAuthDAL, AuthDAL>();
             services.AddScoped<IAuthManager, AuthManager>();
+            services.AddScoped<ITitleUnitUpperWorkerDAL, TitleUnitUpperWorkerDAL>();
+            services.AddScoped<ITitleUnitUpperWorkerManager, TitleUnitUpperWorkerManager>();
             services.AddScoped<MyMapper>();
             services.AddControllers();
 
@@ -62,6 +65,7 @@ namespace Advance.API
                     ValidateIssuerSigningKey = true,
                 };
             });
+            
             services.AddAuthorization();
         }
 

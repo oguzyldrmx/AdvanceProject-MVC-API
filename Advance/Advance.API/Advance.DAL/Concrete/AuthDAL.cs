@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Advance.DAL.Context;
 using Advance.Model.Entities;
 using Dapper;
-using Advance.DTOs.DTOs.WorkerDTO;
+using System.Data;
 
 namespace Advance.DAL.Concrete
 {
@@ -23,19 +23,15 @@ namespace Advance.DAL.Concrete
 
         public async Task<Worker> Login(string mail, string password)
         {
-            var query = "select * from Worker where WorkerEmail = @WorkerEmail";
-
-            using var connection = _con.CreateConnection();
-            Worker user = await connection.QueryFirstOrDefaultAsync<Worker>(query, new
-            {
-                WorkerEmail = mail,
-            });
-            if (user == null)
+           
+            var user = GetWorker(mail);
+           
+            if (user.Result == null)
             {
                 return null;
             }
 
-            return !SifreKontrolEt(password, user.PasswordSalt, user.PasswordHash) ? null : user;
+            return !SifreKontrolEt(password, user.Result.PasswordSalt, user.Result.PasswordHash) ? null : user.Result;
         }
 
         public async Task<bool> isUserExist(string mail)
@@ -52,6 +48,25 @@ namespace Advance.DAL.Concrete
             }
 
             return true;
+        }
+
+        public async Task<Worker> GetWorker(string mail)
+        {
+            var query = "select w.WorkerID,w.WorkerName,w.WorkerEmail,w.WorkerPhonenumber,w.UpperWorkerID,w.PasswordSalt,w.PasswordHash,u.UnitID,u.UnitName,t.TitleID,t.TitleName from Worker w join Unit u on u.UnitID = w.UnitID join Title t on t.TitleID = w.TitleID where w.WorkerEmail = @Mail";
+            var workerparameters = new DynamicParameters();
+            workerparameters.Add("Mail", mail, DbType.String);
+
+            using var connection = _con.CreateConnection();
+            var data = await connection.QueryAsync<Worker, Unit, Title, Worker>(query,
+                (worker, unit, title) =>
+                {
+                    worker.Unit = unit;
+                    worker.Title = title;
+                    return worker;
+                },
+                splitOn: "UnitID, TitleID",
+                param: workerparameters);
+            return data.FirstOrDefault();
         }
 
         private bool SifreKontrolEt(string password, byte[] userPassSalt, byte[] userPasswordHash)

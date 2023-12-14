@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Advance.DTOs.DTOs.WorkerDTO
+namespace Advance.DTOs.DTOs.WorkerDTOs
 {
     public record WorkerRegisterDTO
     {
@@ -16,6 +16,6 @@ namespace Advance.DTOs.DTOs.WorkerDTO
         public int UnitID { get; set; }
         public int TitleID { get; set; }
 
-        
+
     }
 }

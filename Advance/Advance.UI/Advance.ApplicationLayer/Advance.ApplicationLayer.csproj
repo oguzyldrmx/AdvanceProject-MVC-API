@@ -5,9 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstract\" />
-    <Folder Include="Concrete\" />
     <Folder Include="Validations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Advance.DTOs\Advance.DTOs.csproj" />
+    <ProjectReference Include="..\Advance.Services\Advance.Services.csproj" />
   </ItemGroup>
 
 </Project>

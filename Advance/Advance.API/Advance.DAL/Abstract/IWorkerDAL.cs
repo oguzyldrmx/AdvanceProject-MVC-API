@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Advance.DTOs.DTOs.WorkerDTO;
+using Advance.DTOs.DTOs.WorkerDTOs;
 using Advance.Model.Entities;
 
 namespace Advance.DAL.Abstract

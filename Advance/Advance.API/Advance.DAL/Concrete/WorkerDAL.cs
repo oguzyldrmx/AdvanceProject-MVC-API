@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using Advance.DAL.Abstract;
 using Advance.DAL.Context;
-using Advance.DTOs.DTOs.WorkerDTO;
+using Advance.DTOs.DTOs.WorkerDTOs;
 using Advance.Model.Entities;
 using Dapper;
 

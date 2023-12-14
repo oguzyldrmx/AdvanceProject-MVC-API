@@ -14,5 +14,7 @@ namespace Advance.DAL.Abstract
         Task<Worker> Login(string mail, string password);
 
         Task<bool> isUserExist(string mail);
+
+        Task<Worker> GetWorker(string mail);
     }
 }

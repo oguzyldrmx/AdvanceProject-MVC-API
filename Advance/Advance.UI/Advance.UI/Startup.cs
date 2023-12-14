@@ -7,6 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Advance.ApplicationLayer.Abstract;
+using Advance.ApplicationLayer.Concrete;
+using Advance.Services.ApiConnectServices;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Advance.UI
 {
@@ -23,6 +27,31 @@ namespace Advance.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddScoped<IWorkerManager, WorkerManager>();
+            services.AddScoped<ITitleUnitUpperWorkerManager, TitleUnitUpperWorkerManager>();
+            services.AddHttpClient<WorkerConnectService>(conf =>
+            {
+                conf.BaseAddress = new Uri((Configuration["myBase"]));
+
+            });
+            services.AddHttpClient<TitleUnitUpperWorkerServices>(conf =>
+            {
+                conf.BaseAddress = new Uri((Configuration["myBase"]));
+
+            });
+            services.AddAuthentication(a =>
+            {
+                a.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                a.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                a.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+
+            }).AddCookie(a =>
+            {
+                a.LoginPath = "/Token/login";
+                a.AccessDeniedPath = "/Token/Login";
+                a.Cookie.Name = CookieAuthenticationDefaults.AuthenticationScheme;
+                a.Cookie.HttpOnly = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,7 +68,7 @@ namespace Advance.UI
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -47,7 +76,7 @@ namespace Advance.UI
                 endpoints.MapControllerRoute(
                     name: "default",
 
-                    pattern: "{controller=Login}/{action=Index}/{id?}");
+                    pattern: "{controller=Login}/{action=login}/{id?}");
 
             });
         }

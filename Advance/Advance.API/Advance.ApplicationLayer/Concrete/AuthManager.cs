@@ -1,6 +1,6 @@
 ﻿using Advance.ApplicationLayer.Abstract;
 using Advance.DAL.Abstract;
-using Advance.DTOs.DTOs.WorkerDTO;
+using Advance.DTOs.DTOs.WorkerDTOs;
 
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Advance.ApplicationLayer.Mapper;
 using Advance.ExceptionHandling.CustomException;
 using Advance.Model.Entities;
+using AutoMapper;
 
 namespace Advance.ApplicationLayer.Concrete
 {
@@ -20,18 +21,21 @@ namespace Advance.ApplicationLayer.Concrete
         private readonly IAuthDAL _dal;
         private readonly IConfiguration _conf;
         private readonly MyMapper _mapper;
-        public AuthManager(IAuthDAL dal, IConfiguration conf)
+        public AuthManager(IAuthDAL dal, IConfiguration conf, MyMapper mapper)
         {
             _dal = dal;
             _conf = conf;
-            _mapper = new MyMapper();
+            _mapper = mapper;
         }
 
-        public async Task<string> Login(WorkerLoginDTO worker)
+        public async Task<WorkerLoginDTO> Login(WorkerLoginDTO worker)
         {
             try
             {
+                if (worker == null)
+                    return null;
                 var kisiVarmi = await _dal.Login(worker.WorkerEmail, worker.password);
+               
                 var data = _mapper.Map<WorkerDTO, Worker>(kisiVarmi);
                 if (data == null)
                     return null; //todo register et geriye dön
@@ -40,7 +44,9 @@ namespace Advance.ApplicationLayer.Concrete
                     Expires = DateTime.Now.AddMinutes(20),
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                        new Claim(ClaimTypes.Email, worker.WorkerEmail)
+                        new Claim(ClaimTypes.Email, kisiVarmi.WorkerEmail),
+                        new Claim(ClaimTypes.Role, kisiVarmi.Title.TitleName )
+                       
                     }),
                     SigningCredentials = new SigningCredentials(
                         new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_conf["apisecretKey"])),
@@ -49,8 +55,15 @@ namespace Advance.ApplicationLayer.Concrete
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var token = tokenHandler.CreateToken(description);
                 var kullaniciIcinUretilmisTokenDegeri = tokenHandler.WriteToken(token);
-
-                return kullaniciIcinUretilmisTokenDegeri;
+                var user=new WorkerLoginDTO()
+                {
+                    WorkerName = kisiVarmi.WorkerName,
+                    WorkerEmail = kisiVarmi.WorkerEmail,
+                    password = worker.password,
+                    TitleName = kisiVarmi.Title.TitleName,
+                    Token = kullaniciIcinUretilmisTokenDegeri
+                };
+                return user;
             }
             catch (Exception e)
             {
@@ -65,11 +78,8 @@ namespace Advance.ApplicationLayer.Concrete
             {
                 var kisiVarmi = await _dal.isUserExist(user.WorkerEmail);
                 if (kisiVarmi != false)
-                {
                     throw new UserExceptions("Böyle bir maile sahip kullanıcı zaten mevcut.");
-                    
-                }
-                 ;
+
                 var data = await _dal.Register(_mapper.Map<Worker, WorkerRegisterDTO>(user), user.password);
 
                 return user;

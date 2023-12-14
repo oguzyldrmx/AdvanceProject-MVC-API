@@ -1,5 +1,5 @@
 ﻿using Advance.ApplicationLayer.Abstract;
-using Advance.DTOs.DTOs.WorkerDTO;
+using Advance.DTOs.DTOs.WorkerDTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -20,7 +20,7 @@ namespace Advance.API.Controllers
         }
 
 
-        [HttpGet("getworkers")]
+        [HttpGet("~/api/getworkers")]
         public async Task<IActionResult> GetWorkers()
         {
             var data = await _workerManager.GetWorkers();
@@ -29,7 +29,7 @@ namespace Advance.API.Controllers
             return Ok(data);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("~/api/{id}")]
         public async Task<IActionResult> GetWorker(int id)
         {
             if (id <= 0)
@@ -43,7 +43,7 @@ namespace Advance.API.Controllers
             return Ok(data);
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("~/api/delete/{id}")]
         public async Task<IActionResult> DeleteWorker(int id)
         {
             if (id <= 0)
@@ -57,7 +57,7 @@ namespace Advance.API.Controllers
             return Ok(data);
         }
 
-        [HttpPost("add")]
+        [HttpPost("~/api/add")]
         public async Task<IActionResult> AddWorker([FromBody] WorkerInsertDTO dto)
         {
             if (dto == null)
@@ -68,7 +68,7 @@ namespace Advance.API.Controllers
             return Ok(data);
         }
 
-        [HttpPatch("update")]
+        [HttpPatch("~/api/update")]
         public async Task<IActionResult> UpdateWorker([FromBody] WorkerUpdateDTO dto)
         {
             if (dto == null)
