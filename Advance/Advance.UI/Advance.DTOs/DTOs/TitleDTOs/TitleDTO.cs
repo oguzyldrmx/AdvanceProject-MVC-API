@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Advance.DTOs.TitleDTOs
+namespace Advance.DTOs.DTOs.TitleDTOs
 {
     public record TitleDTO
     {

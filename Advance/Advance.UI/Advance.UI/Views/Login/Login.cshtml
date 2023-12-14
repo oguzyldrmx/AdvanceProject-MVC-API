@@ -12,22 +12,8 @@
 
 
 
-        <div class="form-container sign-up">
-            <form>
-                <h1>Hesap Oluştur</h1>
+        @await Html.PartialAsync("_RegisterPartialView", new WorkerRegisterDTO())
 
-
-                <input type="text" placeholder="İsim">
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Şifre">
-                <input type="number" placeholder="Telefon">
-                <select>Müdür</select>
-                <select>Birim</select>
-                <select>Ünvan</select>
-
-                <button>Kayıt ol</button>
-            </form>
-        </div>
         <div class="form-container sign-in">
             <form method="post" asp-action="Login" asp-controller="Login">
                 @Html.AntiForgeryToken()

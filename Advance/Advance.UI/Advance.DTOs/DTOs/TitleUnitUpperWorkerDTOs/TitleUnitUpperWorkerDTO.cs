@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Advance.DTOs.DTOs.WorkerDTOs;
-using Advance.DTOs.TitleDTOs;
-using Advance.DTOs.UnitDTOs;
+using Advance.DTOs.DTOs.TitleDTOs;
+using Advance.DTOs.DTOs.UnitDTOs;
 
-namespace Advance.DTOs.TitleUnitUpperWorkerDTOs
+namespace Advance.DTOs.DTOs.TitleUnitUpperWorkerDTOs
 {
     public record TitleUnitUpperWorkerDTO
     {
