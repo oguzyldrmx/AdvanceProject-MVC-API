@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Advance.ApplicationLayer.Abstract;
@@ -27,8 +28,6 @@ namespace Advance.UI.Controllers
         public async Task<IActionResult> Login()
         {
             var datas = await _titleUnitUpperWorkerManager.GetTitleUnitUpperWorkers();
-         
-
             ViewData["titles"] = datas.Tittles;
             ViewData["units"] = datas.Units;
             ViewData["upperworkers"] = datas.UpperWorkers;
@@ -56,6 +55,8 @@ namespace Advance.UI.Controllers
 
             var claims = new List<Claim>()
             {
+                new Claim(ClaimTypes.Email,data.WorkerEmail),
+                new Claim(ClaimTypes.NameIdentifier,data.WorkerID.ToString()),
                 new Claim(ClaimTypes.Name,data.WorkerName),
                 new Claim(ClaimTypes.Role,data.TitleName)
             };
@@ -82,7 +83,8 @@ namespace Advance.UI.Controllers
                     ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
                 }
 
-                TempData["result"] = "Doğrulama başarısız";
+                TempData["ValidationErrors"] = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                //return View();
                 return RedirectToAction("Login", "Login");
             }
             var data = await _workerManager.Register(worker);
