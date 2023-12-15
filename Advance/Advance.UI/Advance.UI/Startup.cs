@@ -9,7 +9,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Advance.ApplicationLayer.Abstract;
 using Advance.ApplicationLayer.Concrete;
+using Advance.ApplicationLayer.Validations.Worker;
 using Advance.Services.ApiConnectServices;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Advance.UI
@@ -26,7 +28,11 @@ namespace Advance.UI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddFluentValidation(fv =>
+            {
+                fv.RegisterValidatorsFromAssemblyContaining<WorkerRegisterValidator>();
+                fv.RegisterValidatorsFromAssemblyContaining<WorkerLoginValidator>();
+            });
             services.AddScoped<IWorkerManager, WorkerManager>();
             services.AddScoped<ITitleUnitUpperWorkerManager, TitleUnitUpperWorkerManager>();
             services.AddHttpClient<WorkerConnectService>(conf =>

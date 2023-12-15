@@ -33,12 +33,12 @@ namespace Advance.ApplicationLayer.Concrete
             try
             {
                 if (worker == null)
-                    return null;
+                    throw new CustomException("Girilen bilgilere dikkat ediniz.");
                 var kisiVarmi = await _dal.Login(worker.WorkerEmail, worker.password);
                
                 var data = _mapper.Map<WorkerDTO, Worker>(kisiVarmi);
                 if (data == null)
-                    return null; //todo register et geriye dön
+                    throw new CustomException("Hata oluştu");
                 var description = new SecurityTokenDescriptor()
                 {
                     Expires = DateTime.Now.AddMinutes(20),
@@ -57,6 +57,7 @@ namespace Advance.ApplicationLayer.Concrete
                 var kullaniciIcinUretilmisTokenDegeri = tokenHandler.WriteToken(token);
                 var user=new WorkerLoginDTO()
                 {
+                    WorkerID = kisiVarmi.WorkerID,
                     WorkerName = kisiVarmi.WorkerName,
                     WorkerEmail = kisiVarmi.WorkerEmail,
                     password = worker.password,

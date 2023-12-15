@@ -18,14 +18,14 @@
             <form method="post" asp-action="Login" asp-controller="Login">
                 @Html.AntiForgeryToken()
                 <div>
-                    <div class="alert alert-danger text-center" role="alert">
+                    <div class="alert alert-danger text-center" style="" role="alert">
                         @TempData["result"]
                     </div>
                 </div>
                 <h1>Giriş Yap</h1>
 
-                <input type="email" class="form-control" asp-for="WorkerEmail" placeholder="Email">
-                <input type="password" class="form-control" asp-for="password" placeholder="Şifre">
+                <input type="email" class="form-control" asp-for="WorkerEmail" placeholder="Email" required>
+                <input type="password" class="form-control" asp-for="password" placeholder="Şifre" required>
                 <a href="#">Şifremi unuttum</a>
                 <button type="submit">Giriş yap</button>
             </form>
