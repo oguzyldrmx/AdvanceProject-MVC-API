@@ -8,6 +8,7 @@ namespace Advance.DTOs.DTOs.WorkerDTOs
 {
     public record WorkerRegisterDTO
     {
+
         public string WorkerName { get; set; }
         public string WorkerEmail { get; set; }
         public string password { get; set; }

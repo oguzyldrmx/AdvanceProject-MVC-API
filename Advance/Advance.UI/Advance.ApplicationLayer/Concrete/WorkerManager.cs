@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Advance.ApplicationLayer.Abstract;
 using Advance.DTOs.DTOs.WorkerDTOs;
+using Advance.ExceptionHandling.CustomException;
 using Advance.Services.ApiConnectServices;
 
 namespace Advance.ApplicationLayer.Concrete
@@ -20,24 +21,41 @@ namespace Advance.ApplicationLayer.Concrete
 
         public async Task<WorkerLoginDTO> Login(WorkerLoginDTO worker)
         {
-            var data = await _service.Login(worker);
-            if (data == null)
+            try
             {
-                return null;
-            }
+                var data = await _service.Login(worker);
+                if (data == null)
+                {
+                    throw new CustomException("Login isleminde hata olustu");
+                }
 
-            return data;
+                return data;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public async Task<string> Register(WorkerRegisterDTO worker)
         {
-            var data = await _service.Register(worker);
-            if (data == null)
+            try
             {
-                return "Başarısız";
-            }
+                
+                var data = await _service.Register(worker);
+                if (data == null)
+                {
+                    return "Başarısız";
+                }
 
-            return "Başarılı";
+                return "Başarılı";
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

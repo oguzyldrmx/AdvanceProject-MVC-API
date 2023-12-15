@@ -17,6 +17,8 @@ using Advance.DAL.Abstract;
 using Advance.DAL.Concrete;
 using Advance.DAL.Context;
 using System.Text;
+using Advance.ApplicationLayer.Validations.Worker;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -43,8 +45,13 @@ namespace Advance.API
             services.AddScoped<ITitleUnitUpperWorkerDAL, TitleUnitUpperWorkerDAL>();
             services.AddScoped<ITitleUnitUpperWorkerManager, TitleUnitUpperWorkerManager>();
             services.AddScoped<MyMapper>();
-            services.AddControllers();
 
+            services.AddControllers().AddFluentValidation(fv =>
+            {
+                fv.RegisterValidatorsFromAssemblyContaining<WorkerRegisterValidator>();
+                fv.RegisterValidatorsFromAssemblyContaining<WorkerLoginValidator>();
+            });
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Advance.API", Version = "v1" });

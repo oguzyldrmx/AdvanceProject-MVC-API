@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Advance.ApplicationLayer.Abstract;
+using Advance.ApplicationLayer.Validations.Worker;
 using Advance.DTOs.DTOs.WorkerDTOs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -25,12 +27,7 @@ namespace Advance.UI.Controllers
         public async Task<IActionResult> Login()
         {
             var datas = await _titleUnitUpperWorkerManager.GetTitleUnitUpperWorkers();
-
-            if (datas == null)
-            {
-                TempData["result"] = "Başarısız";
-                return View();
-            }
+         
 
             ViewData["titles"] = datas.Tittles;
             ViewData["units"] = datas.Units;
@@ -45,7 +42,11 @@ namespace Advance.UI.Controllers
             var data = await _workerManager.Login(worker);
             if (data == null)
             {
+                var datas = await _titleUnitUpperWorkerManager.GetTitleUnitUpperWorkers();
                 TempData["result"] = "Başarısız";
+                ViewData["titles"] = datas.Tittles;
+                ViewData["units"] = datas.Units;
+                ViewData["upperworkers"] = datas.UpperWorkers;
                 return View(worker);
             }
             HttpContext.Response.Cookies.Append("token",data.Token,new CookieOptions()
@@ -72,12 +73,20 @@ namespace Advance.UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(WorkerRegisterDTO worker)
         {
-            var data = await _workerManager.Register(worker);
-            if (data == "Başarısız")
+            var validator = new WorkerRegisterValidator();
+            var validationResult = validator.Validate(worker);
+            if (!validationResult.IsValid)
             {
-                TempData["result"] = data;
-                return RedirectToAction("Login","Login");
+                foreach (var error in validationResult.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+
+                TempData["result"] = "Doğrulama başarısız";
+                return RedirectToAction("Login", "Login");
             }
+            var data = await _workerManager.Register(worker);
+
             TempData["result"] = data;
             return RedirectToAction("Login", "Login");
         }

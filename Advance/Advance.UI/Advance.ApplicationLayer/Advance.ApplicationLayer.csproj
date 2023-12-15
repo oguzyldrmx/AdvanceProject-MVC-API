@@ -5,11 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Validations\" />
+    <PackageReference Include="FluentValidation" Version="11.8.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Advance.DTOs\Advance.DTOs.csproj" />
+    <ProjectReference Include="..\Advance.ExceptionHandling\Advance.ExceptionHandling.csproj" />
     <ProjectReference Include="..\Advance.Services\Advance.Services.csproj" />
   </ItemGroup>
 

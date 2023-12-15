@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Advance.ApplicationLayer.Abstract;
 using Advance.DTOs.DTOs.TitleUnitUpperWorkerDTOs;
+using Advance.ExceptionHandling.CustomException;
 using Advance.Services.ApiConnectServices;
 
 namespace Advance.ApplicationLayer.Concrete
@@ -25,7 +26,7 @@ namespace Advance.ApplicationLayer.Concrete
                 var data = await _services.GetTitleUnitUpperWorkers();
                 if (data == null)
                 {
-                    throw new NullReferenceException();
+                    throw new CustomException("Unvan-Birim-Ust Calisan cekilirken hata oluştu");
                 }
 
                 return data;
