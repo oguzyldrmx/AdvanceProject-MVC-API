@@ -44,6 +44,8 @@ namespace Advance.API
             services.AddScoped<IAuthManager, AuthManager>();
             services.AddScoped<ITitleUnitUpperWorkerDAL, TitleUnitUpperWorkerDAL>();
             services.AddScoped<ITitleUnitUpperWorkerManager, TitleUnitUpperWorkerManager>();
+            services.AddScoped<IAdvanceDAL, AdvanceDAL>();
+            services.AddScoped<IAdvanceManager, AdvanceManager>();
             services.AddScoped<MyMapper>();
 
             services.AddControllers().AddFluentValidation(fv =>

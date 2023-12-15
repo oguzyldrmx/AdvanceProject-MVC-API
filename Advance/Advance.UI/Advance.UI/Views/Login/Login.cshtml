@@ -1,7 +1,10 @@
-﻿@model WorkerLoginDTO
+﻿@using FluentValidation.Results
+@model WorkerLoginDTO
 @{
     Layout = null;
+    var errorList = (string[])TempData["ValidationErrors"];
 }
+
 
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -19,7 +22,14 @@
                 @Html.AntiForgeryToken()
                 <div>
                     <div class="alert alert-danger text-center" style="" role="alert">
-                        @TempData["result"]
+                       
+                        @if (errorList != null)
+                        {
+                            foreach (var error in errorList)
+                            {
+                                <p>@error</p>
+                            }
+                        }
                     </div>
                 </div>
                 <h1>Giriş Yap</h1>

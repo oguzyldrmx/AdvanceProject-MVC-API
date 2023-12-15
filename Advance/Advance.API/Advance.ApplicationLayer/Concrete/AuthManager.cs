@@ -44,7 +44,9 @@ namespace Advance.ApplicationLayer.Concrete
                     Expires = DateTime.Now.AddMinutes(20),
                     Subject = new ClaimsIdentity(new Claim[]
                     {
+                        new Claim(ClaimTypes.NameIdentifier,data.WorkerID.ToString()),
                         new Claim(ClaimTypes.Email, kisiVarmi.WorkerEmail),
+                        new Claim(ClaimTypes.Name,kisiVarmi.WorkerName),
                         new Claim(ClaimTypes.Role, kisiVarmi.Title.TitleName )
                        
                     }),
