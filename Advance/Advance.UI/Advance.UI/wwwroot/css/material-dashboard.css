@@ -5312,11 +5312,12 @@ fieldset:disabled .btn {
 }
 
 .card-header {
-  padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);
-  margin-bottom: 0;
-  color: var(--bs-card-cap-color);
-  background-color: var(--bs-card-cap-bg);
-  border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color);
+    padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);
+    margin-bottom: 0;
+    color: var(--bs-card-cap-color);
+    background-color: #3c373e;
+    border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color);
+    
 }
 
 .card-header:first-child {
@@ -5945,7 +5946,7 @@ fieldset:disabled .btn {
 
 .list-group {
   --bs-list-group-color: inherit;
-  --bs-list-group-bg: #fff;
+  --bs-list-group-bg: #3c373e;
   --bs-list-group-border-color: rgba(0, 0, 0, 0.125);
   --bs-list-group-border-width: 1px;
   --bs-list-group-border-radius: 0.375rem;
@@ -5998,12 +5999,12 @@ fieldset:disabled .btn {
 }
 
 .list-group-item {
-  position: relative;
-  display: block;
-  padding: var(--bs-list-group-item-padding-y) var(--bs-list-group-item-padding-x);
-  color: var(--bs-list-group-color);
-  background-color: var(--bs-list-group-bg);
-  border: var(--bs-list-group-border-width) solid var(--bs-list-group-border-color);
+    position: relative;
+    display: block;
+    padding: var(--bs-list-group-item-padding-y) var(--bs-list-group-item-padding-x);
+    color: var(--bs-list-group-color);
+    background-color: #3c373e;
+    border: var(--bs-list-group-border-width) solid var(--bs-list-group-border-color);
 }
 
 .list-group-item:first-child {
@@ -21281,7 +21282,7 @@ fieldset:disabled .btn {
 
 .card.card-background .card-body .author .name span,
 .card.card-background .card-body .author .name .stats {
-  color: #fff;
+  color: #3c373e;
 }
 
 .card.card-background:after {
