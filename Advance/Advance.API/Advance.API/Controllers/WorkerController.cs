@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Advance.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class WorkerController : ControllerBase

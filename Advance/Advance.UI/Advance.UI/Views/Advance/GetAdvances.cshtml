@@ -1,0 +1,101 @@
+﻿
+@{
+    List<AdvanceListDTO> advanceList = (List<AdvanceListDTO>)ViewBag.advances;
+    int i = 0;
+}
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="~/css/style.css">
+    @*<link rel="stylesheet" href="scss/style.scss">*@
+
+    <title>Geçmiş Avans Talepleri</title>
+</head>
+<body>
+    <div class="content">
+
+        <div class="container">
+            <h2 class="mb-5">Geçmiş Avans Talepleri</h2>
+
+
+            <div class="table-responsive">
+
+                <table class="table table-striped custom-table text-center">
+                    <thead>
+                        <tr>
+
+                            <th scope="col" style="width:2%">Sıra</th>
+                            <th scope="col" style="width:5%">Talep Tutarı</th>
+                            <th scope="col" style="width:8%">Talep Oluşturulma Tarihi</th>
+                            <th scope="col" style="width:8%">İstenilen Tarih</th>
+                            <th scope="col" style="width:5%">Proje</th>
+                            <th scope="col" style="width:5%">Talep Durumu</th>
+                            <th scope="col" style="width:7%">Onaylayan/Reddeden</th>
+                            <th scope="col" style="width:7%">Onaylayan/Reddeden Unvan</th>
+                            <th scope="col" style="width:8%">Onay/Red Tarihi</th>
+                            <th scope="col" style="width:5%">Onaylanan Tutar</th>
+                            <th scope="col" style="width:10%">Belirlenen Odeme Tarihi</th>
+                            <th scope="col" style="width:10%">Odeme Yapılan Tarih</th>
+                            <th scope="col" style="width:10%">Geri Ödeme Durumu</th>
+                            <th scope="col" style="width:10%">Detay</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (advanceList != null)
+                        {
+                            
+                            foreach (var item in advanceList)
+                            {
+                                i++;
+                                
+                                <tr scope="row">
+                                    <td>@i</td>
+                                    <td>@item.AdvanceAmount</td>
+                                    <td>@item.RequestDate</td>
+                                    <td>@item.DesiredDate</td>
+                                    <td>@item.ProjectName</td>
+                                    <td>@item.ApprovalName</td>
+                                    <td>@item.ApprovalRejectedName</td>
+                                    <td>@item.ApprovalRejectedTitle</td>
+                                    <td>@item.ApprovedDeclinedDate</td>
+                                    <td>@item.ApprovedAmount</td>
+                                    <td>@item.DeterminedPaybackDate</td>
+                                    <td>@item.PaybackDate</td>
+                                    <td>@item.PaybackStatus</td>
+                                    <td><a asp-action="GetDetails" asp-controller="Advance" asp-route-id="@item.AdvanceID" class="more">Details</a></td>
+
+                                </tr>
+
+                               
+                            }
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/main.js"></script>
+   
+</body>

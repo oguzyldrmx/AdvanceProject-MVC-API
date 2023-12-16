@@ -34,8 +34,14 @@ namespace Advance.UI
                 fv.RegisterValidatorsFromAssemblyContaining<WorkerLoginValidator>();
             });
             services.AddScoped<IWorkerManager, WorkerManager>();
+            services.AddScoped<IAdvanceManager, AdvanceManager>();
             services.AddScoped<ITitleUnitUpperWorkerManager, TitleUnitUpperWorkerManager>();
             services.AddHttpClient<WorkerConnectService>(conf =>
+            {
+                conf.BaseAddress = new Uri((Configuration["myBase"]));
+
+            }); 
+            services.AddHttpClient<AdvanceConnectService>(conf =>
             {
                 conf.BaseAddress = new Uri((Configuration["myBase"]));
 

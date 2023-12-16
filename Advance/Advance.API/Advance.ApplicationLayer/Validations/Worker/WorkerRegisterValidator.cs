@@ -14,7 +14,7 @@ namespace Advance.ApplicationLayer.Validations.Worker
         {
             RuleFor(x => x.WorkerName).NotNull().WithMessage("Lütfen çalışan ismi kısmını boş bırakmayınız.")
                 .NotEmpty().WithMessage("Lütfen isim kısmını boş bırakmayınız.")
-                .Must(OnlyLetterControl).WithMessage("Lütfen isim alanında özel karakter veya sayı girmeyiniz.")
+                .Must(OnlyLetterControlIncludeSpace).WithMessage("Lütfen isim alanında özel karakter veya sayı girmeyiniz.")
                 .Length(3, 30).WithMessage("Lütfen isim alanına 3 ile 30 arasında karakter giriniz.");
             RuleFor(x => x.WorkerPhonenumber).Must(NumericControl).WithMessage("Lütfen çalışan telefona harf girmeyiniz")
                 .NotNull().WithMessage("Lütfen telefon alanını boş geçmeyiniz")
@@ -26,9 +26,9 @@ namespace Advance.ApplicationLayer.Validations.Worker
                 .NotEmpty().WithMessage("Lütfen şifreyi boş bırakmayınız")
                 .MinimumLength(5).WithMessage("Şifre minimum 5 karakter olabilir");
         }
-        private bool OnlyLetterControl(string name)
+        private bool OnlyLetterControlIncludeSpace(string name)
         {
-            return MyExtensions.OnlyLetterControl(name);
+            return MyExtensions.OnlyLetterControlIncludeSpace(name);
         }
 
         private bool NumericControl(string data)

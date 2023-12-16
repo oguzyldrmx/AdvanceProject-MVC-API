@@ -39,21 +39,25 @@ namespace Advance.ApplicationLayer.Concrete
                 var data = _mapper.Map<WorkerDTO, Worker>(kisiVarmi);
                 if (data == null)
                     throw new CustomException("Hata oluştu");
+
+
                 var description = new SecurityTokenDescriptor()
                 {
+                    Audience = "www.oguz.com",
+                    Issuer = "www.oguz.com",
                     Expires = DateTime.Now.AddMinutes(20),
-                    Subject = new ClaimsIdentity(new Claim[]
-                    {
+                    Subject = new ClaimsIdentity(new Claim[] {
                         new Claim(ClaimTypes.NameIdentifier,data.WorkerID.ToString()),
                         new Claim(ClaimTypes.Email, kisiVarmi.WorkerEmail),
                         new Claim(ClaimTypes.Name,kisiVarmi.WorkerName),
                         new Claim(ClaimTypes.Role, kisiVarmi.Title.TitleName )
-                       
                     }),
-                    SigningCredentials = new SigningCredentials(
-                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_conf["apisecretKey"])),
-                        SecurityAlgorithms.HmacSha512)
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_conf["apisecretKey"])), SecurityAlgorithms.HmacSha512Signature),
                 };
+
+               
+               
+                
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var token = tokenHandler.CreateToken(description);
                 var kullaniciIcinUretilmisTokenDegeri = tokenHandler.WriteToken(token);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Advance.DTOs.DTOs.ProjectDTOs;
 using Advance.DTOs.DTOs.TitleDTOs;
 using Advance.DTOs.DTOs.UnitDTOs;
 using Advance.DTOs.DTOs.WorkerDTOs;
@@ -26,6 +27,7 @@ namespace Advance.ApplicationLayer.Mapper
             CreateMap<WorkerLoginDTO, Worker>().ReverseMap();
             CreateMap<TitleDTO, Title>().ReverseMap();
             CreateMap<UnitDTO, Unit>().ReverseMap();
+            CreateMap<ProjectDTO, Project>().ReverseMap();
             MapperConfiguration = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(this);

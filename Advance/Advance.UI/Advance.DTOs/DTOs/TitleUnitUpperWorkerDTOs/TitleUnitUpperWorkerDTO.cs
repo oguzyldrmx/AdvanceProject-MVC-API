@@ -12,7 +12,7 @@ namespace Advance.DTOs.DTOs.TitleUnitUpperWorkerDTOs
     public record TitleUnitUpperWorkerDTO
     {
         public List<UnitDTO> Units { get; set; }
-        public List<TitleDTO> Tittles { get; set; }
+        public List<TitleDTO> Titles { get; set; }
         public List<UpperWorkerDTO> UpperWorkers { get; set; }
     }
 }

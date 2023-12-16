@@ -52,8 +52,7 @@ namespace Advance.ApplicationLayer.Concrete
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                return null;
             }
         }
     }
