@@ -21,6 +21,12 @@ a {
 .content {
   padding: 7rem 0; }
 
+.card {
+    background-color: white;
+}
+div {
+    background-color: #3c373e;
+}
 h2 {
   font-size: 20px;
   color: #fff; }

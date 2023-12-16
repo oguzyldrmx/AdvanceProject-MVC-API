@@ -3,7 +3,6 @@
     int i = 0;
 }
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
@@ -12,12 +11,9 @@
 
     <link rel="stylesheet" href="~/css/owl.carousel.min.css">
 
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/css/bootstrap.min.css">
 
-    <!-- Style -->
     <link rel="stylesheet" href="~/css/style.css">
-    @*<link rel="stylesheet" href="scss/style.scss">*@
 
     <title>Detaylar</title>
 </head>
@@ -26,42 +22,65 @@
 
         <div class="container">
             <h2 class="mb-5">Detaylar</h2>
+            <div class="row">
+                <div class="card col-md-6"  >
+                    
+                    <ul class="list-group list-group-flush" >
+                        <li class="list-group-item"><span>Talep No:</span>@advanceList.Select(x=>x.AdvanceID).First()</li>
+                        <li class="list-group-item"><span>Talep Oluşturulma tarihi:</span>@advanceList.Select(x=>x.RequestDate).Last()</li>
+                        <li class="list-group-item"><span>Alınmak istenen tarih:</span>@advanceList.Select(x=>x.DesiredDate).Last()</li>
+                        <li class="list-group-item"><span>Proje:</span>@advanceList.Select(x=>x.ProjectName).First()</li>
+                        <li class="list-group-item"><span>Açıklama:</span>@advanceList.Select(x=>x.AdvanceExplanation).First()</li>
+                    </ul>
+                </div>
+                <div class="card col-md-6">
+                    
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><span>Talep Edilen Tutar:</span>@advanceList.Select(x=>x.AdvanceAmount).First()</li>
+                        <li class="list-group-item"><span>Onaylanan tutar:</span>@advanceList.Select(x=>x.ApprovedAmount).Last()</li>
+                        <li class="list-group-item"><span>Son durumu:</span>@advanceList.Select(x=>x.NextApprovalName).Last()</li>
+                        <li class="list-group-item"><span>Makbuz No:</span>@advanceList.Select(x=>x.PaymentReceiptID).Last()</li>
+                        <li class="list-group-item"><span>Avans Geri Ödeme Durumu:</span>
+                            @{
+                                var isLastPaymentReceiptZero = advanceList.Last().PaymentReceiptID != 0;
+                                @isLastPaymentReceiptZero
+                            }
+                                </li>
 
+                        </ul>
+                    </div>
+                </div>
+                <div class="table-responsive">
 
-            <div class="table-responsive">
-
-                <table class="table table-striped custom-table text-center">
-                    <thead>
-                        <tr>
-                            <th scope="col" >Sıra</th>
-                            <th scope="col" >Durum</th>
-                            <th scope="col" >İşlem Zamanı</th>
-                            <th scope="col" >İşlemi Yapan</th>
-                            <th scope="col" >Sonraki Aşama Kullanıcısı</th>
-                            <th scope="col" >Sonraki Durum</th>
-                            <th scope="col" >Onaylanan Tutar</th>
-                            <th scope="col" >Ödeme Yapılacak Tarih</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    <table class="table table-striped custom-table text-center">
+                        <thead>
+                            <tr>
+                                <th scope="col" >Sıra</th>
+                                <th scope="col" >Durum</th>
+                                <th scope="col" >İşlem Zamanı</th>
+                                <th scope="col" >İşlemi Yapan</th>
+                                <th scope="col" >Sonraki Aşama Kullanıcısı</th>
+                                <th scope="col" >Sonraki Durum</th>
+                                <th scope="col" >Onaylanan Tutar</th>
+                                <th scope="col" >Ödeme Yapılacak Tarih</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                         @if (advanceList != null)
                         {
                             foreach (var item in advanceList)
                             {
                                 i++;
-                                <tr scope="row">
-                                    <td>@i</td>
-                                    <td>@item.ApprovalName</td>
-                                    <td>@item.ApprovedDeclinedDate</td>
-                                    <td>@item.ApprovalRejectedName</td>
-                                    <td>@item.NextApprovalRejectedName</td>
-                                    <td>@item.NextApprovalName</td>
-                                    <td>@item.ApprovedAmount</td>
-                                    <td>@item.DeterminedPaybackDate</td>
-                                   
-
+                                 <tr scope="row">
+                                 <td>@i</td>
+                                 <td>@item.ApprovalName</td>
+                                 <td>@item.ApprovedDeclinedDate</td>
+                                 <td>@item.ApprovalRejectedName</td>
+                                 <td>@item.NextApprovalRejectedName</td>
+                                 <td>@item.NextApprovalName</td>
+                                 <td>@item.ApprovedAmount</td>
+                                 <td>@item.DeterminedPaybackDate</td>
                                 </tr>
-
 
                             }
 
