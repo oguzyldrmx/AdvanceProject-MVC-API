@@ -11,5 +11,9 @@ namespace Advance.ApplicationLayer.Abstract
     public interface IAdvanceManager
     {
         Task<List<AdvanceListDTO>> GetAdvances(int id);
+
+        Task<List<AdvanceDetailDTO>> GetDetails(int id);
+
+        Task<string> InsertAdvance(AdvanceInsertDTO dto);
     }
 }

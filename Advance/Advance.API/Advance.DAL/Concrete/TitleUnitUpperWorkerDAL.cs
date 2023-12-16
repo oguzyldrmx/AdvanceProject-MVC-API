@@ -31,7 +31,7 @@ namespace Advance.DAL.Concrete
             using var conn = _connectionHelper.CreateConnection();
             var data = new TitleUnitUpperWorkerDTO()
             {
-                Tittles = conn.Query<TitleDTO>(Titles).ToList(),
+                Titles = conn.Query<TitleDTO>(Titles).ToList(),
                 Units = conn.Query<UnitDTO>(Units).ToList(),
                 UpperWorkers = conn.Query<UpperWorkerDTO>(UpperWorkers).ToList()
             };

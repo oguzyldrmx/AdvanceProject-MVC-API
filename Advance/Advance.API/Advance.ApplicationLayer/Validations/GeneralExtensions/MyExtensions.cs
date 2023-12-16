@@ -149,9 +149,9 @@ namespace Advance.ApplicationLayer.Validations.GeneralExtensions
             return str.All(char.IsLetter);
         }
 
-        public static bool OnlyLetterControl(this string metin)
+        public static bool OnlyLetterControlIncludeSpace(this string metin)
         {
-            return Regex.IsMatch(metin, @"^[a-zA-ZğüşıöçĞÜŞİÖÇ]+$");
+            return Regex.IsMatch(metin, @"^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$");
         }
 
         public static bool BeNumeric(int number)

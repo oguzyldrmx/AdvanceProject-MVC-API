@@ -45,7 +45,10 @@ namespace Advance.API
             services.AddScoped<ITitleUnitUpperWorkerDAL, TitleUnitUpperWorkerDAL>();
             services.AddScoped<ITitleUnitUpperWorkerManager, TitleUnitUpperWorkerManager>();
             services.AddScoped<IAdvanceDAL, AdvanceDAL>();
+            services.AddScoped<IProjectDAL, ProjectDAL>();
             services.AddScoped<IAdvanceManager, AdvanceManager>();
+            services.AddScoped<IProjectManager, ProjectManager>();
+
             services.AddScoped<MyMapper>();
 
             services.AddControllers().AddFluentValidation(fv =>
@@ -63,15 +66,20 @@ namespace Advance.API
             {
                 opt.AddDefaultPolicy(a => a.WithOrigins().AllowAnyHeader().AllowAnyMethod());
             });
-            //apisecretkey
-            var gizliBilgi = Encoding.ASCII.GetBytes(Configuration.GetSection("apisecretKey").Value);
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            
+            var bilgi = Encoding.UTF8.GetBytes(Configuration["apisecretKey"]);
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
             {
-                options.TokenValidationParameters = new TokenValidationParameters()
+                opt.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    IssuerSigningKey = new SymmetricSecurityKey(gizliBilgi),
+                    IssuerSigningKey = new SymmetricSecurityKey(bilgi),
                     ValidateIssuer = true,
                     ValidateIssuerSigningKey = true,
+                    ValidateAudience = true,
+                    ValidAudience = "www.oguz.com",
+                    ValidIssuer = "www.oguz.com"
+
                 };
             });
             

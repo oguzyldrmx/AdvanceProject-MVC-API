@@ -11,5 +11,11 @@ namespace Advance.DAL.Abstract
     public interface IAdvanceDAL
     {
         Task<List<AdvanceListDTO>> GetAdvances(int workerID);
+
+        Task<List<AdvanceDetailDTO>> GetDetails(int advanceID);
+
+        Task<int> AdvanceInsert(AdvanceInsertDTO dto);
+
+        
     }
 }

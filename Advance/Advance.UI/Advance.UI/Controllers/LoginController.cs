@@ -28,7 +28,7 @@ namespace Advance.UI.Controllers
         public async Task<IActionResult> Login()
         {
             var datas = await _titleUnitUpperWorkerManager.GetTitleUnitUpperWorkers();
-            ViewData["titles"] = datas.Tittles;
+            ViewData["titles"] = datas.Titles;
             ViewData["units"] = datas.Units;
             ViewData["upperworkers"] = datas.UpperWorkers;
             return View();
@@ -43,13 +43,14 @@ namespace Advance.UI.Controllers
             {
                 var datas = await _titleUnitUpperWorkerManager.GetTitleUnitUpperWorkers();
                 TempData["result"] = "Başarısız";
-                ViewData["titles"] = datas.Tittles;
+                ViewData["titles"] = datas.Titles;
                 ViewData["units"] = datas.Units;
                 ViewData["upperworkers"] = datas.UpperWorkers;
                 return View(worker);
             }
             HttpContext.Response.Cookies.Append("token",data.Token,new CookieOptions()
             {
+                
                 Expires = DateTimeOffset.Now.AddMinutes(20)
             });
 
