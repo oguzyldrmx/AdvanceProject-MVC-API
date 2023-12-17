@@ -38,12 +38,29 @@ namespace Advance.API.Controllers
 
             return Ok(data);
         }
+        [HttpGet("~/api/getwhoisapproving/{id}")]
+        public async Task<IActionResult> GetWhoIsApproving(int id)
+        {
+            var data = await _advanceManager.GetWhoIsApproving(id);
+            if (data == null)
+                return NotFound();
+
+            return Ok(data);
+        }
 
         [HttpPost("~/api/advanceinsert")]
         public async Task<string> AdvanceInsert([FromBody] AdvanceInsertDTO dto)
         {
             var data = await _advanceManager.InsertAdvance(dto);
            
+            return data;
+        }
+
+        [HttpPost("~/api/advancedetailinsert")]
+        public async Task<string> AdvanceDetailInsert([FromBody] AdvanceDetailsInsertDTO dto)
+        {
+            var data = await _advanceManager.InsertAdvanceDetails(dto);
+
             return data;
         }
     }

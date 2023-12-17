@@ -1,0 +1,97 @@
+﻿@{
+    List<AdvanceWhoIsApprovingDTO> advanceList = (List<AdvanceWhoIsApprovingDTO>)ViewData["projectList"];
+    int i = 0;
+    int upperID = int.Parse(User.FindFirst(ClaimTypes.UserData)?.Value);
+    int nowID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+}
+@using System.Security.Claims
+@using System.Security.Cryptography.X509Certificates
+@model AdvanceDetailsInsertDTO
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="~/css/style.css">
+
+    <title>Detaylar</title>
+</head>
+<body>
+    <div class="content">
+
+        <div class="container">
+            <h2 class="mb-5">Detaylar</h2>
+            <div class="row">
+                <div class="card col-md-5">
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><span>Çalışanın Adı:</span>@advanceList.Select(x=>x.WorkerName).First()</li>
+                        <li class="list-group-item"><span>Unvanı:</span>@advanceList.Select(x=>x.TitleName).First()</li>
+                        <li class="list-group-item"><span>Birimi:</span>@advanceList.Select(x=>x.UnitName).First()</li>
+                        <li class="list-group-item"><span>Talep Oluşturma Tarihi:</span>@advanceList.Select(x=>x.RequestDate).First()</li>
+                        <li class="list-group-item"><span>Alınmak istenen Tarih:</span>@advanceList.Select(x=>x.DesiredDate).First()</li>
+
+                        <li class="list-group-item"><span>Projeler:</span>@advanceList.Select(x=>x.ProjectName).First()</li>
+
+
+                    </ul>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="card col-md-5">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><span>Talep Edilen Tutar:</span>@advanceList.Select(x=>x.AdvanceAmount).First()</li>
+
+                        <li class="list-group-item"><span>Onaylanan Tutar:</span>@advanceList.Select(x=>x.ApprovedAmount).Last()</li>
+
+                        <li class="list-group-item"><span>Son Durumu:</span>@advanceList.Select(x=>x.ApprovalName).Last()</li>
+
+                        <li class="list-group-item"><span>Açıklama:</span>@advanceList.Select(x=>x.AdvanceExplanation).First()</li>
+                    </ul>
+                </div>
+
+            </div>
+            <br />
+            <form method="post" asp-action="GetBMApprovePageDetails" asp-controller="Advance">
+                <div class="row text-center">
+                    <div class="col-md-6">
+                        <h2>Uygun Görülen Tutar:</h2>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="number" class="form-control" asp-for="ApprovedAmount" placeholder="TL" />
+                        <input type="hidden" class="form-control" asp-for="NextApproverOrRejecterID"  value="@upperID" placeholder="TL" />
+                        <input type="hidden" class="form-control" asp-for="ApprovedDeclinedDate" value="@DateTime.Now" placeholder="TL" />
+                        <input type="hidden" class="form-control" asp-for="ApprovalStatusID" value="@advanceList.Select(x=>x.ApprovalStatusID).Last()" placeholder="TL" />
+                        <input type="hidden" class="form-control" asp-for="ApproverOrRejecterID" value="@nowID" placeholder="TL" />
+                        <input type="hidden" class="form-control" asp-for="AdvanceID" value="@advanceList.Select(x=>x.AdvanceID).First()" placeholder="TL" />
+                    </div>
+
+                </div>
+                <div class="row text-center">
+                    <div class="col-md-6">
+                        <button class="btn-danger" type="submit">Red</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn-success" type="submit">Onay</button>
+
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/main.js"></script>
+
+</body>

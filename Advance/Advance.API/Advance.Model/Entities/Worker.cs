@@ -17,7 +17,7 @@ namespace Advance.Model.Entities
         public Nullable<int> TitleID { get; set; }
 
         public Title Title { get; set; }
-        public Nullable<int> UpperWorkerID { get; set; }
+        public int UpperWorkerID { get; set; }
         public byte[] PasswordSalt { get; set; }
         public byte[] PasswordHash { get; set; }
     

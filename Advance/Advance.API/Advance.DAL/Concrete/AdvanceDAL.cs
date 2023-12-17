@@ -79,7 +79,7 @@ namespace Advance.DAL.Concrete
                     },transaction);
 
                     var queryApproval =
-                        "insert into AdvanceApproveStatus(AdvanceID,ApproverOrRejecterID,[Approved/DeclinedDate],ApprovalStatusID,NextApproverOrRejecterID)  values(@AdvanceID,  @ApproverOrRejecterID,@ApprovedDeclinedDate,@ApprovalStatusID,@NextApproverOrRejecterID)";
+                        "insert into AdvanceApproveStatus(AdvanceID,ApproverOrRejecterID,[Approved/DeclinedDate],ApprovalStatusID,ApprovedAmount,NextApproverOrRejecterID)  values(@AdvanceID,  @ApproverOrRejecterID,@ApprovedDeclinedDate,@ApprovalStatusID,@ApprovedAmount,@NextApproverOrRejecterID)";
                     var parameters = new DynamicParameters();
                     parameters.Add("AdvanceID", advance, DbType.Int32);
                     parameters.Add("ApprovalStatusID", 1, DbType.Int32);
@@ -109,6 +109,34 @@ namespace Advance.DAL.Concrete
            
 
         }
+
+        public async Task<List<AdvanceWhoIsApprovingDTO>> GetWhoIsApproving(int workerID)
+        {
+            if (workerID == 0) return null;
+
+            using var conn = _con.CreateConnection();
+
+            var data = await conn.QueryAsync<AdvanceWhoIsApprovingDTO>("SP_CheckApproveOrder", new { id = workerID }, commandType: CommandType.StoredProcedure);
+            return data.ToList();
+        }
+
+        public async Task<int> AdvanceInsertDetail(AdvanceDetailsInsertDTO dto)
+        {
+            int etkilenenSatirSayisi = 0;
+            var queryApproval =
+                "insert into AdvanceApproveStatus(AdvanceID,ApproverOrRejecterID,[Approved/DeclinedDate],ApprovalStatusID,ApprovedAmount,NextApproverOrRejecterID)  values(@AdvanceID,  @ApproverOrRejecterID,@ApprovedDeclinedDate,@ApprovalStatusID,@ApprovedAmount,@NextApproverOrRejecterID)";
+            using var conn = _con.CreateConnection();
+            var parameters = new DynamicParameters();
+            parameters.Add("AdvanceID", dto.AdvanceID, DbType.Int32);
+            parameters.Add("ApprovalStatusID", dto.ApprovalStatusID+1, DbType.Int32);
+            parameters.Add("ApproverOrRejecterID", dto.ApproverOrRejecterID, DbType.Int32);
+            parameters.Add("ApprovedDeclinedDate", DateTime.Now, DbType.DateTime);
+            parameters.Add("ApprovedAmount", dto.ApprovedAmount, DbType.Decimal);
+            parameters.Add("NextApproverOrRejecterID", dto.NextApproverOrRejecterID, DbType.Int32);
+            etkilenenSatirSayisi = conn.Execute(queryApproval, parameters);
+            return etkilenenSatirSayisi;
+        }
+
         public int GetRule(decimal amount)
         {
             var query = "select max(tar.ID) from TitleAmountApprovalRule tar left join Amount a on a.AmountID = tar.AmountID where a.MinAmount <= @AmountMin";

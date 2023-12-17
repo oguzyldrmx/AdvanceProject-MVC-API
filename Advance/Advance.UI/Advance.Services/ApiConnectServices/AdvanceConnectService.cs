@@ -42,6 +42,16 @@ namespace Advance.Services.ApiConnectServices
             }
             return null;
         }
+        public async Task<List<AdvanceWhoIsApprovingDTO>> GetWhoIsApproving(int id)
+        {
+            var donenDeger = await _httpClient.GetAsync($"getwhoisapproving/{id}");
+            if (donenDeger.IsSuccessStatusCode)
+            {
+                var data = JsonConvert.DeserializeObject<List<AdvanceWhoIsApprovingDTO>>(await donenDeger.Content.ReadAsStringAsync());
+                return data;
+            }
+            return null;
+        }
 
         public async Task<AdvanceInsertDTO> AdvanceInsert(AdvanceInsertDTO dto)
         {
@@ -58,7 +68,21 @@ namespace Advance.Services.ApiConnectServices
 
             return null;
         }
+        public async Task<AdvanceDetailsInsertDTO> AdvanceDetailsInsert(AdvanceDetailsInsertDTO dto)
+        {
+            StringContent content = new StringContent(JsonConvert.SerializeObject(dto));
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
+            var donenDeger = await _httpClient.PostAsync("advancedetailinsert", content);
+            var data = await donenDeger.Content.ReadAsStringAsync();
+            if (donenDeger.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<AdvanceDetailsInsertDTO>(
+                    await donenDeger.Content.ReadAsStringAsync());
+            }
+
+            return null;
+        }
         public async Task<List<ProjectDTO>> GetProjectsForWorker(int id)
         {
             var donenDeger = await _httpClient.GetAsync($"getprojects/{id}");
