@@ -1,0 +1,81 @@
+﻿@{
+    List<AdvanceWhoIsApprovingDTO> advanceList = (List<AdvanceWhoIsApprovingDTO>)ViewData["projectList"];
+    int i = 0;
+}
+@model AdvanceWhoIsApprovingDTO
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="~/css/style.css">
+
+    <title>Detaylar</title>
+</head>
+<body>
+    <div class="content">
+
+        <div class="container">
+            <h2 class="mb-5">Detaylar</h2>
+          
+            <div class="table-responsive">
+
+                <table class="table table-striped custom-table text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">Çalışanın Adı</th>
+                            <th scope="col">Unvanı</th>
+                            <th scope="col">Birimi</th>
+                            <th scope="col">Talep Durumu</th>
+                            <th scope="col">Talep Oluşturma Tarihi</th>
+                            <th scope="col">Talep Tutarı</th>
+                            <th scope="col">İstenilen Tarih</th>
+                            <th scope="col">Proje</th>
+                            <th scope="col">Detay</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (advanceList != null)
+                        {
+                            foreach (var item in advanceList)
+                            {
+                               
+                                <tr scope="row">
+                                   
+                                    <td>@item.WorkerName</td>
+                                    <td>@item.TitleName</td>
+                                    <td>@item.UnitName</td>
+                                    <td>@item.ApprovalName</td>
+                                    <td>@item.RequestDate</td>
+                                    <td>@item.AdvanceAmount</td>
+                                    <td>@item.DesiredDate</td>
+                                    <td>@item.ProjectName</td>
+                                    <td><a asp-action="GetBMApprovePageDetails" asp-controller="Advance" class="more">Details</a></td>
+                                </tr>
+
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/main.js"></script>
+
+</body>

@@ -79,5 +79,44 @@ namespace Advance.ApplicationLayer.Concrete
                 return null;
             }
         }
+
+        public async Task<List<AdvanceWhoIsApprovingDTO>> GetWhoIsApproving(int id)
+        {
+            try
+            {
+                var data = await _dal.GetWhoIsApproving(id);
+                if (data == null || data.Count == 0)
+                {
+                    throw new Exception("Data getirilirken bir hata oluştu");
+                }
+
+                return data;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public async Task<string> InsertAdvanceDetails(AdvanceDetailsInsertDTO dto)
+        {
+            try
+            {
+                if (dto == null) throw new ArgumentNullException(nameof(dto));
+
+                var data = await _dal.AdvanceInsertDetail(dto);
+
+                if (data > 0)
+                {
+                    return "Avans detayı Oluşturuldu";
+                }
+
+                return "Avans detayı oluştururken bir hatayla karşılaşıldı.";
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
     }
 }

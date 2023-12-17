@@ -80,6 +80,25 @@ namespace Advance.ApplicationLayer.Concrete
             }
         }
 
+        public async Task<string> AdvanceDetailsInsert(AdvanceDetailsInsertDTO dto)
+        {
+            try
+            {
+                if (dto == null)
+                {
+                    throw new ArgumentNullException(nameof(dto));
+                }
+
+                var data = await _services.AdvanceDetailsInsert(dto);
+                if (data == null) return "Başarısız";
+                return "Başarılı";
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         public async Task<List<ProjectDTO>> GetProjectsForWorker(int id)
         {
             try
@@ -90,6 +109,26 @@ namespace Advance.ApplicationLayer.Concrete
                 if (data == null)
                 {
                     throw new CustomException("Projeler cekilirken hata oluştu");
+                }
+
+                return data;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<AdvanceWhoIsApprovingDTO>> GetWhoIsApproving(int id)
+        {
+            try
+            {
+                if (id == 0) throw new CustomException("Avans İD si alınamadı");
+
+                var data = await _services.GetWhoIsApproving(id);
+                if (data == null)
+                {
+                    throw new CustomException("Detaylar cekilirken hata oluştu");
                 }
 
                 return data;

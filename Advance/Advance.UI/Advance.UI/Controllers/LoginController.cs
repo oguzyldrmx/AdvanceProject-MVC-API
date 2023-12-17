@@ -59,7 +59,8 @@ namespace Advance.UI.Controllers
                 new Claim(ClaimTypes.Email,data.WorkerEmail),
                 new Claim(ClaimTypes.NameIdentifier,data.WorkerID.ToString()),
                 new Claim(ClaimTypes.Name,data.WorkerName),
-                new Claim(ClaimTypes.Role,data.TitleName)
+                new Claim(ClaimTypes.Role,data.TitleName),
+                new Claim(ClaimTypes.UserData,data.UpperWorkerID.ToString())
             };
             var identity = new ClaimsIdentity(claims, "login");
             var principal = new ClaimsPrincipal(identity);

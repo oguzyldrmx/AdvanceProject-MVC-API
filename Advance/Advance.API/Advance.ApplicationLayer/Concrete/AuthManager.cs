@@ -50,7 +50,8 @@ namespace Advance.ApplicationLayer.Concrete
                         new Claim(ClaimTypes.NameIdentifier,data.WorkerID.ToString()),
                         new Claim(ClaimTypes.Email, kisiVarmi.WorkerEmail),
                         new Claim(ClaimTypes.Name,kisiVarmi.WorkerName),
-                        new Claim(ClaimTypes.Role, kisiVarmi.Title.TitleName )
+                        new Claim(ClaimTypes.Role, kisiVarmi.Title.TitleName ),
+                        new Claim(ClaimTypes.UserData,kisiVarmi.UpperWorkerID.ToString())
                     }),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_conf["apisecretKey"])), SecurityAlgorithms.HmacSha512Signature),
                 };
@@ -68,7 +69,8 @@ namespace Advance.ApplicationLayer.Concrete
                     WorkerEmail = kisiVarmi.WorkerEmail,
                     password = worker.password,
                     TitleName = kisiVarmi.Title.TitleName,
-                    Token = kullaniciIcinUretilmisTokenDegeri
+                    Token = kullaniciIcinUretilmisTokenDegeri,
+                    UpperWorkerID = kisiVarmi.UpperWorkerID
                 };
                 return user;
             }

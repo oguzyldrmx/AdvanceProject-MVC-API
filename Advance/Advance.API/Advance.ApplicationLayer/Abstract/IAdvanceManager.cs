@@ -15,5 +15,10 @@ namespace Advance.ApplicationLayer.Abstract
         Task<List<AdvanceDetailDTO>> GetDetails(int id);
 
         Task<string> InsertAdvance(AdvanceInsertDTO dto);
+
+        Task<List<AdvanceWhoIsApprovingDTO>> GetWhoIsApproving(int id);
+
+        Task<string> InsertAdvanceDetails(AdvanceDetailsInsertDTO dto);
+
     }
 }
