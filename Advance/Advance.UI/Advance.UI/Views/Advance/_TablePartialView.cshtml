@@ -1,0 +1,42 @@
+﻿@{
+    List<AdvanceDetailDTO> advanceList = (List<AdvanceDetailDTO>)ViewBag.details;
+    int i = 0;
+}
+<div class="table-responsive">
+
+    <table class="table table-striped custom-table text-center">
+        <thead>
+        <tr>
+            <th scope="col" >Sıra</th>
+            <th scope="col" >Durum</th>
+            <th scope="col" >İşlem Zamanı</th>
+            <th scope="col" >İşlemi Yapan</th>
+            <th scope="col" >Sonraki Aşama Kullanıcısı</th>
+            <th scope="col" >Sonraki Durum</th>
+            <th scope="col" >Onaylanan Tutar</th>
+            <th scope="col" >Ödeme Yapılacak Tarih</th>
+        </tr>
+        </thead>
+        <tbody>
+        @if (advanceList != null)
+        {
+            foreach (var item in advanceList)
+            {
+                i++;
+                <tr scope="row">
+                    <td>@i</td>
+                    <td>@item.ApprovalName</td>
+                    <td>@item.ApprovedDeclinedDate</td>
+                    <td>@item.ApprovalRejectedName</td>
+                    <td>@item.NextApprovalRejectedName</td>
+                    <td>@item.NextApprovalName</td>
+                    <td>@item.ApprovedAmount</td>
+                    <td>@item.DeterminedPaybackDate</td>
+                </tr>
+
+            }
+
+        }
+        </tbody>
+    </table>
+</div>

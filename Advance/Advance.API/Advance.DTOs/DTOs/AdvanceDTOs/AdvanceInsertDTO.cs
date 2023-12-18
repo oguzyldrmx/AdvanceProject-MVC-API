@@ -12,6 +12,7 @@ namespace Advance.DTOs.DTOs.AdvanceDTOs
 
         public string AdvanceExplanation { get; set; }
 
+        public int TitleAmountApprovalRuleID { get; set; }
         public DateTime RequestDate { get; set; }
 
         public DateTime DesiredDate { get; set; }

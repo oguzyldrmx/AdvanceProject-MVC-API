@@ -11,6 +11,7 @@ namespace Advance.DTOs.DTOs.WorkerDTOs
         public int WorkerID { get; set; }
         public string WorkerName { get; set; }
         public string WorkerEmail { get; set; }
+        public int TitleID { get; set; }
         public int UpperWorkerID { get; set; }
         public string password { get; set; }
         public string Token { get; set; }

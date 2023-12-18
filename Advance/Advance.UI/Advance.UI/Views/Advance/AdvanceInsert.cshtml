@@ -35,10 +35,10 @@
                     <form method="post" asp-action="AdvanceInsert" asp-controller="Advance">
                         @Html.AntiForgeryToken()
                         <div class="input-group">
-                            <input class="input--style-3 form-control" type="number" asp-for="AdvanceAmount" placeholder="Avans Miktarı" >
+                            <input class="input--style-3 form-control" type="number" asp-for="AdvanceAmount" placeholder="Avans Miktarı" required >
                         </div>
                         <div class="input-group">
-                            <input class="input--style-3 js-datepicker form-control" type="datetime" asp-for="DesiredDate" placeholder="Avans Tarihi" >
+                            <input class="input--style-3 js-datepicker form-control" type="datetime" asp-for="DesiredDate" placeholder="Avans Tarihi" required>
                             <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
                         </div> 
                         <div class="form-group">
@@ -57,7 +57,7 @@
                             </div>
                         </div>
                         <div class="input-group">
-                            <input class="input--style-3 form-control" type="text" asp-for="AdvanceExplanation" placeholder="Açıklama" >
+                            <input class="input--style-3 form-control" type="text" asp-for="AdvanceExplanation" placeholder="Açıklama" required>
                         </div>
                         <div class="p-t-10">
                             <button class="btn btn--pill btn--green" type="submit">Gönder</button>

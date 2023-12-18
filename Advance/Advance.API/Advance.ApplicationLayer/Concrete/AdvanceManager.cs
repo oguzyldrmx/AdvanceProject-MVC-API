@@ -23,6 +23,8 @@ namespace Advance.ApplicationLayer.Concrete
             _mapper = mapper;
         }
 
+
+
         public async Task<List<AdvanceListDTO>> GetAdvances(int id)
         {
             try
@@ -56,6 +58,42 @@ namespace Advance.ApplicationLayer.Concrete
             catch (Exception e)
             {
                 return null;
+            }
+        }
+
+        public async Task<AdvanceListDTO> GetAdvance(int id)
+        {
+            try
+            {
+                var data = await _dal.GetAdvance(id);
+                if (data == null)
+                {
+                    throw new Exception("Avans getirilirken bir hata oluştu");
+                }
+
+                return data;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public async Task<int> GetMaxTitleForRule(int id)
+        {
+            try
+            {
+                var data = await _dal.GetMaxTitleForRule(id);
+                if (data == 0)
+                {
+                    throw new Exception("Title getirilirken bir hata oluştu");
+                }
+
+                return data;
+            }
+            catch (Exception e)
+            {
+                return 0;
             }
         }
 
@@ -104,6 +142,35 @@ namespace Advance.ApplicationLayer.Concrete
             {
                 if (dto == null) throw new ArgumentNullException(nameof(dto));
 
+                var advance = await _dal.GetAdvance(dto.AdvanceID);
+                var maxTitle = await _dal.GetMaxTitleForRule(advance.TitleAmountApprovalRuleID);
+
+                if (dto.ApprovedConfirmed == false)
+                {
+                    dto.ApprovalStatusID = 10;
+                    dto.NextApproverOrRejecterID = dto.ApproverOrRejecterID;
+                    dto.ApprovedAmount = 0;
+                    dto.isProcess = true;
+                }
+                else
+                {
+                    if (dto.TitleID < maxTitle)
+                    {
+                        dto.ApprovalStatusID++;
+                        dto.isProcess = false;
+                    }
+                    else if (dto.TitleID == maxTitle)
+                    {
+                        dto.ApprovalStatusID = 7;
+                        dto.isProcess = false;
+                        
+                    }
+                    else
+                    {
+                        dto.ApprovalStatusID = 6;
+                        dto.isProcess = false;
+                    }
+                }
                 var data = await _dal.AdvanceInsertDetail(dto);
 
                 if (data > 0)

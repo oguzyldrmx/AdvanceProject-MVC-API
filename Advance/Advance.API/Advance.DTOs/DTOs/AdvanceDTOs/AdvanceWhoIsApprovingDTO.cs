@@ -29,5 +29,12 @@ namespace Advance.DTOs.DTOs.AdvanceDTOs
         public decimal ApprovedAmount { get; set; }
 
         public string AdvanceExplanation { get; set; }
+
+        public int LastApproverOrRejecterID { get; set; }
+        public string LastApproverOrRejecterName { get; set; }
+
+        public string LastApproverOrRejecterTitle { get; set; }
+
+        public DateTime LastApprovedDate { get; set; }
     }
 }

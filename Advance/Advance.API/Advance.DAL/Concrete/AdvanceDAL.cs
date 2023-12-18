@@ -43,6 +43,31 @@ namespace Advance.DAL.Concrete
             return data.ToList();
         }
 
+        public async Task<AdvanceListDTO> GetAdvance(int advanceID)
+        {
+            if (advanceID == 0) return null;
+
+            var query = "select a.AdvanceID,a.TitleAmountApprovalRuleID,a.AdvanceAmount,a.AdvanceExplanation,w.WorkerName,a.RequestDate,a.DesiredDate,a.isApproved,p.ProjectName from Advance a left join Worker w on w.WorkerID=a.WorkerID left join Project p on p.ProjectID = a.ProjectID where a.AdvanceID =@id";
+            using var conn = _con.CreateConnection();
+
+
+            var data = await conn.QueryFirstOrDefaultAsync<AdvanceListDTO>(query, new { id = advanceID });
+            return data;
+        }
+
+        public async Task<int> GetMaxTitleForRule(int id)
+        {
+            if (id == 0) return 0;
+
+            var query = "select TitleID from TitleAmountApprovalRule where ID=@id";
+            using var conn = _con.CreateConnection();
+
+
+            var data = await conn.QueryFirstOrDefaultAsync<int>(query, new { id = id });
+            return data;
+        }
+
+
         public async Task<int> AdvanceInsert(AdvanceInsertDTO dto)
         {
             if (dto == null) return 0;
@@ -67,11 +92,14 @@ namespace Advance.DAL.Concrete
 
                     var queryAdvance = "insert into Advance(AdvanceAmount,AdvanceExplanation, TitleAmountApprovalRuleID,   WorkerID, RequestDate,DesiredDate, ProjectID) values(@AdvanceAmount,@AdvanceExplanation,@TitleAmountApprovalRuleID,@WorkerID,@RequestDate, @DesiredDate, @ProjectID); SELECT SCOPE_IDENTITY(); ";
 
+                    var rule = GetRule(dto.AdvanceAmount);
+                    dto.TitleAmountApprovalRuleID = rule;
+
                     var advance = conn.ExecuteScalar<int>(queryAdvance, new
                     {
                         AdvanceAmount = dto.AdvanceAmount,
                         AdvanceExplanation = dto.AdvanceExplanation,
-                        TitleAmountApprovalRuleID = GetRule(dto.AdvanceAmount),
+                        TitleAmountApprovalRuleID = dto.TitleAmountApprovalRuleID,
                         WorkerID = dto.WorkerID,
                         RequestDate=DateTime.UtcNow,
                         DesiredDate = dto.DesiredDate,
@@ -79,7 +107,7 @@ namespace Advance.DAL.Concrete
                     },transaction);
 
                     var queryApproval =
-                        "insert into AdvanceApproveStatus(AdvanceID,ApproverOrRejecterID,[Approved/DeclinedDate],ApprovalStatusID,ApprovedAmount,NextApproverOrRejecterID)  values(@AdvanceID,  @ApproverOrRejecterID,@ApprovedDeclinedDate,@ApprovalStatusID,@ApprovedAmount,@NextApproverOrRejecterID)";
+                        "insert into AdvanceApproveStatus(AdvanceID,ApproverOrRejecterID,[Approved/DeclinedDate],ApprovalStatusID,ApprovedAmount,NextApproverOrRejecterID,isProcess)  values(@AdvanceID,  @ApproverOrRejecterID,@ApprovedDeclinedDate,@ApprovalStatusID,@ApprovedAmount,@NextApproverOrRejecterID,@isProcess)";
                     var parameters = new DynamicParameters();
                     parameters.Add("AdvanceID", advance, DbType.Int32);
                     parameters.Add("ApprovalStatusID", 1, DbType.Int32);
@@ -87,6 +115,7 @@ namespace Advance.DAL.Concrete
                     parameters.Add("ApprovedDeclinedDate", DateTime.Now, DbType.DateTime);
                     parameters.Add("ApprovedAmount", null, DbType.Decimal);
                     parameters.Add("NextApproverOrRejecterID", workerWhoWantsAdvance.Result.UpperWorkerID, DbType.Int32);
+                    parameters.Add("isProcess", false, DbType.Boolean);
                     etkilenenSatirSayisi = conn.Execute(queryApproval, parameters, transaction);
                     transaction.Commit();
                 }
@@ -117,6 +146,8 @@ namespace Advance.DAL.Concrete
             using var conn = _con.CreateConnection();
 
             var data = await conn.QueryAsync<AdvanceWhoIsApprovingDTO>("SP_CheckApproveOrder", new { id = workerID }, commandType: CommandType.StoredProcedure);
+           
+                
             return data.ToList();
         }
 
@@ -124,15 +155,16 @@ namespace Advance.DAL.Concrete
         {
             int etkilenenSatirSayisi = 0;
             var queryApproval =
-                "insert into AdvanceApproveStatus(AdvanceID,ApproverOrRejecterID,[Approved/DeclinedDate],ApprovalStatusID,ApprovedAmount,NextApproverOrRejecterID)  values(@AdvanceID,  @ApproverOrRejecterID,@ApprovedDeclinedDate,@ApprovalStatusID,@ApprovedAmount,@NextApproverOrRejecterID)";
+                "insert into AdvanceApproveStatus(AdvanceID,ApproverOrRejecterID,[Approved/DeclinedDate],ApprovalStatusID,ApprovedAmount,NextApproverOrRejecterID,isProcess)  values(@AdvanceID,  @ApproverOrRejecterID,@ApprovedDeclinedDate,@ApprovalStatusID,@ApprovedAmount,@NextApproverOrRejecterID,@isProcess)";
             using var conn = _con.CreateConnection();
             var parameters = new DynamicParameters();
             parameters.Add("AdvanceID", dto.AdvanceID, DbType.Int32);
-            parameters.Add("ApprovalStatusID", dto.ApprovalStatusID+1, DbType.Int32);
+            parameters.Add("ApprovalStatusID", dto.ApprovalStatusID, DbType.Int32);
             parameters.Add("ApproverOrRejecterID", dto.ApproverOrRejecterID, DbType.Int32);
             parameters.Add("ApprovedDeclinedDate", DateTime.Now, DbType.DateTime);
             parameters.Add("ApprovedAmount", dto.ApprovedAmount, DbType.Decimal);
             parameters.Add("NextApproverOrRejecterID", dto.NextApproverOrRejecterID, DbType.Int32);
+            parameters.Add("isProcess", dto.isProcess, DbType.Boolean);
             etkilenenSatirSayisi = conn.Execute(queryApproval, parameters);
             return etkilenenSatirSayisi;
         }

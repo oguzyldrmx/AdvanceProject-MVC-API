@@ -11,10 +11,10 @@ namespace Advance.Model.Entities
         public string WorkerName { get; set; }
         public string WorkerEmail { get; set; }
         public string WorkerPhonenumber { get; set; }
-        public Nullable<int> UnitID { get; set; }
+        public int UnitID { get; set; }
 
         public Unit Unit { get; set; }
-        public Nullable<int> TitleID { get; set; }
+        public int TitleID { get; set; }
 
         public Title Title { get; set; }
         public int UpperWorkerID { get; set; }

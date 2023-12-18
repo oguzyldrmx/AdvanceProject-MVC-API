@@ -14,6 +14,9 @@ namespace Advance.ApplicationLayer.Abstract
 
         Task<List<AdvanceDetailDTO>> GetDetails(int id);
 
+        Task<AdvanceListDTO> GetAdvance(int id);
+
+        Task<int> GetMaxTitleForRule(int id);
         Task<string> InsertAdvance(AdvanceInsertDTO dto);
 
         Task<List<AdvanceWhoIsApprovingDTO>> GetWhoIsApproving(int id);
