@@ -48,6 +48,16 @@ namespace Advance.API.Controllers
             return Ok(data);
         }
 
+        [HttpGet("~/api/getadvance/{id}")]
+        public async Task<IActionResult> GetAdvance(int id)
+        {
+            var data = await _advanceManager.GetAdvance(id);
+            if (data == null)
+                return NotFound();
+
+            return Ok(data);
+        }
+
         [HttpPost("~/api/advanceinsert")]
         public async Task<string> AdvanceInsert([FromBody] AdvanceInsertDTO dto)
         {

@@ -6,7 +6,6 @@
     int titleID = int.Parse(User.FindFirst(ClaimTypes.Actor)?.Value);
 }
 @using System.Security.Claims
-@using System.Security.Cryptography.X509Certificates
 @model AdvanceDetailsInsertDTO
 <head>
     <meta charset="utf-8">
@@ -48,7 +47,7 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><span>Talep Edilen Tutar:</span>@advanceList.Select(x=>x.AdvanceAmount).First()</li>
 
-                        <li class="list-group-item"><span>Onaylanan Tutar:</span>@advanceList.Select(x=>x.ApprovedAmount).Last()</li>
+                        <li class="list-group-item"><span>Son Onaylanan Tutar:</span>@advanceList.Select(x=>x.ApprovedAmount).Last()</li>
 
                         <li class="list-group-item"><span>Son Durumu:</span>@advanceList.Select(x=>x.ApprovalName).Last()</li>
 
@@ -58,33 +57,17 @@
 
             </div>
             <br />
-            <form method="post" asp-action="GetBMApprovePageDetails" asp-controller="Advance">
-                <div class="row text-center">
-                    <div class="col-md-6">
-                        <h2>Uygun Görülen Tutar:</h2>
-                    </div>
-                    <div class="col-md-6">
-                        <input type="number" class="form-control" asp-for="ApprovedAmount" placeholder="TL" required />
-                        <input type="hidden" class="form-control" asp-for="NextApproverOrRejecterID"  value="@upperID"  />
-                        <input type="hidden" class="form-control" asp-for="ApprovedDeclinedDate" value="@DateTime.Now"  />
-                        <input type="hidden" class="form-control" asp-for="ApprovalStatusID" value="@advanceList.Select(x=>x.ApprovalStatusID).Last()"  />
-                        <input type="hidden" class="form-control" asp-for="ApproverOrRejecterID" value="@nowID"  />
-                        <input type="hidden" class="form-control" asp-for="TitleID" value="@titleID"  />
-                        <input type="hidden" class="form-control" asp-for="AdvanceID" value="@advanceList.Select(x=>x.AdvanceID).First()" />
-                    </div>
+            @await Html.PartialAsync("_TablePartialView", new AdvanceDetailDTO())
+            <br />
+            @if (titleID == 6)
+            {
+                @await Html.PartialAsync("_FMApproveDatePartialView", new AdvanceDetailsInsertDTO())
 
-                </div>
-                <div class="row text-center">
-                    <div class="col-md-6">
-                        <button class="btn-danger" type="submit" name="approvalButton" value="false">Red</button>
-                    </div>
-                    <div class="col-md-6">
-                        <button class="btn-success" type="submit" name="approvalButton" value="true">Onay</button>
+            }
+            else{
 
-                    </div>
-                </div>
-            </form>
-
+                @await Html.PartialAsync("_ApproveAmountDivPartialView", new AdvanceDetailsInsertDTO())
+            }
         </div>
 
     </div>

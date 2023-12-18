@@ -50,6 +50,7 @@ namespace Advance.ApplicationLayer.Concrete
                         new Claim(ClaimTypes.NameIdentifier,data.WorkerID.ToString()),
                         new Claim(ClaimTypes.Email, kisiVarmi.WorkerEmail),
                         new Claim(ClaimTypes.Name,kisiVarmi.WorkerName),
+                        new Claim(ClaimTypes.Actor,data.TitleDTO.TitleID.ToString()),
                         new Claim(ClaimTypes.Role, kisiVarmi.Title.TitleName ),
                         new Claim(ClaimTypes.UserData,kisiVarmi.UpperWorkerID.ToString())
                     }),
@@ -68,6 +69,7 @@ namespace Advance.ApplicationLayer.Concrete
                     WorkerName = kisiVarmi.WorkerName,
                     WorkerEmail = kisiVarmi.WorkerEmail,
                     password = worker.password,
+                    TitleID = kisiVarmi.Title.TitleID,
                     TitleName = kisiVarmi.Title.TitleName,
                     Token = kullaniciIcinUretilmisTokenDegeri,
                     UpperWorkerID = kisiVarmi.UpperWorkerID

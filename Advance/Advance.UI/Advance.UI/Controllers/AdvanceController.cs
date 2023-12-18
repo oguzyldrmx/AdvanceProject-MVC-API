@@ -57,7 +57,7 @@ namespace Advance.UI.Controllers
             var data = await advanceManager.AdvanceInsert(dto);
            
             TempData["result"] = data;
-            return RedirectToAction("AdvanceInsert");
+            return RedirectToAction("GetAdvances");
         }
 
       
@@ -84,12 +84,48 @@ namespace Advance.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> GetBMApprovePageDetails(AdvanceDetailsInsertDTO dto)
+        public async Task<IActionResult> GetBMApprovePageDetails(AdvanceDetailsInsertDTO dto,string approvalButton)
         {
+            bool isApproved = approvalButton.ToLower() == "true";
+            dto.ApprovedConfirmed = isApproved;
             var data = await advanceManager.AdvanceDetailsInsert(dto);
             
             TempData["result"] = data;
-            return RedirectToAction("GetBMApprovePageDetails");
+            return RedirectToAction("GetBMApprovePage");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetApprovePage()
+        {
+            var data = await advanceManager.GetWhoIsApproving(
+                int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value));
+            ViewData["projectList"] = data;
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetApprovePageDetails(int id)
+        {
+            var details = await advanceManager.GetDetails(id);
+
+            ViewBag.details = details;
+            var data = await advanceManager.GetWhoIsApproving(
+                int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value));
+            ViewData["projectList"] = data;
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> GetApprovePageDetails(AdvanceDetailsInsertDTO dto, string approvalButton)
+        {
+            bool isApproved = approvalButton.ToLower() == "true";
+            dto.ApprovedConfirmed = isApproved;
+            var data = await advanceManager.AdvanceDetailsInsert(dto);
+
+            TempData["result"] = data;
+            return RedirectToAction("GetApprovePage");
         }
     }
 }

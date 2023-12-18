@@ -17,7 +17,10 @@ namespace Advance.DTOs.DTOs.AdvanceDTOs
         public DateTime ApprovedDeclinedDate { get; set; }
 
         public decimal ApprovedAmount { get; set; }
+        public int TitleID { get; set; }
+        public DateTime DeterminedPaymentDate { get; set; }
 
+        public bool ApprovedConfirmed { get; set; }
         public int NextApproverOrRejecterID { get; set; }
     }
 }

@@ -14,6 +14,9 @@ namespace Advance.DAL.Abstract
 
         Task<List<AdvanceDetailDTO>> GetDetails(int advanceID);
 
+        Task<AdvanceListDTO> GetAdvance(int advanceID);
+
+        Task<int> GetMaxTitleForRule(int id);
         Task<int> AdvanceInsert(AdvanceInsertDTO dto);
 
         Task<List<AdvanceWhoIsApprovingDTO>> GetWhoIsApproving(int workerID);

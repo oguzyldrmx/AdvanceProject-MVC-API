@@ -60,7 +60,8 @@ namespace Advance.UI.Controllers
                 new Claim(ClaimTypes.NameIdentifier,data.WorkerID.ToString()),
                 new Claim(ClaimTypes.Name,data.WorkerName),
                 new Claim(ClaimTypes.Role,data.TitleName),
-                new Claim(ClaimTypes.UserData,data.UpperWorkerID.ToString())
+                new Claim(ClaimTypes.UserData,data.UpperWorkerID.ToString()),
+                new Claim(ClaimTypes.Actor,data.TitleID.ToString())
             };
             var identity = new ClaimsIdentity(claims, "login");
             var principal = new ClaimsPrincipal(identity);
@@ -92,6 +93,16 @@ namespace Advance.UI.Controllers
             var data = await _workerManager.Register(worker);
 
             TempData["result"] = data;
+            return RedirectToAction("Login", "Login");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+           
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+           
             return RedirectToAction("Login", "Login");
         }
     }
