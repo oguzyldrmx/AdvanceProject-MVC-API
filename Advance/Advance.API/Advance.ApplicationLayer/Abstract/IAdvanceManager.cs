@@ -23,5 +23,8 @@ namespace Advance.ApplicationLayer.Abstract
 
         Task<string> InsertAdvanceDetails(AdvanceDetailsInsertDTO dto);
 
+        Task<string> InsertOMAdvance(AdvanceOMDetailsInsertDTO dto);
+
+
     }
 }

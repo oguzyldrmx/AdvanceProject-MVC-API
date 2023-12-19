@@ -38,6 +38,8 @@ namespace Advance.DTOs.DTOs.AdvanceDTOs
 
         public DateTime LastApprovedDate { get; set; }
 
+        public DateTime DeterminedPaymentDate { get; set; }
+        public DateTime ReceiptDate { get; set; }
 
 
     }

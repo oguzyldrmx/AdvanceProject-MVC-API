@@ -1,0 +1,41 @@
+﻿@{
+    AdvanceWhoIsApprovingDTO advanceList = (AdvanceWhoIsApprovingDTO)ViewData["projectList"];
+
+    int upperID = int.Parse(User.FindFirst(ClaimTypes.UserData)?.Value);
+    int nowID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+    int titleID = int.Parse(User.FindFirst(ClaimTypes.Actor)?.Value);
+}
+@using System.Security.Claims
+@model AdvanceOMDetailsInsertDTO
+<form method="post" asp-action="GetOMApprovePageDetails" asp-controller="Advance">
+    <div class="row text-center">
+        <div class="col-md-6">
+            <h2>Avans Teslimi Makbuz No:</h2>
+        </div>
+        <div class="col-md-6">
+            <input type="number" class="form-control" asp-for="ReceiptNo" value="" min="1" required />
+
+            <input type="hidden" class="form-control" asp-for="ReceiptDate" value="@DateTime.Now "required/>
+
+            <input type="hidden" class="form-control" asp-for="ApprovedAmount" value="@advanceList.ApprovedAmount"/>
+            <input type="hidden" class="form-control" asp-for="NextApproverOrRejecterID" value="@upperID"/>
+            <input type="hidden" class="form-control" asp-for="ApprovedDeclinedDate" value="@DateTime.Now"/>
+            <input type="hidden" class="form-control" asp-for="ApprovalStatusID" value="@advanceList.ApprovalStatusID"/>
+            <input type="hidden" class="form-control" asp-for="DeterminedPaymentDate" value="@advanceList.DeterminedPaymentDate"/>
+            
+            <input type="hidden" class="form-control" asp-for="ApproverOrRejecterID" value="@nowID"/>
+            <input type="hidden" class="form-control" asp-for="TitleID" value="@titleID"/>
+            <input type="hidden" class="form-control" asp-for="AdvanceID" value="@advanceList.AdvanceID"/>
+        </div>
+
+    </div>
+    <div class="row text-center">
+        <div class="col-md-6">
+            <button class="btn-danger" type="reset" name="approvalButton" value="false">Çıkış</button>
+        </div>
+        <div class="col-md-6">
+            <button class="btn-success" type="submit" name="approvalButton" value="true">Kaydet</button>
+
+        </div>
+    </div>
+</form>

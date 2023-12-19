@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Advance.ApplicationLayer.Abstract;
 using Advance.ApplicationLayer.Concrete;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Advance.API.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectController : ControllerBase

@@ -1,5 +1,6 @@
 ﻿@{
-    List<AdvanceWhoIsApprovingDTO> advanceList = (List<AdvanceWhoIsApprovingDTO>)ViewData["projectList"];
+    AdvanceWhoIsApprovingDTO advanceList = (AdvanceWhoIsApprovingDTO)ViewData["projectList"];
+
 
     int upperID = int.Parse(User.FindFirst(ClaimTypes.UserData)?.Value);
     int nowID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
@@ -13,16 +14,16 @@
             <h2>Uygun Görülen Ödeme Tarihi:</h2>
         </div>
         <div class="col-md-6">
-            <input class="input--style-3 js-datepicker form-control" type="datetime" asp-for="DeterminedPaymentDate" placeholder="gun/ay/yil" required>
+            <input class="input--style-3 js-datepicker form-control" type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" asp-for="DeterminedPaymentDate" placeholder="gun/ay/yil" value="@DateTime.Now" required>
             <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
 
-            <input type="hidden" class="form-control" asp-for="ApprovedAmount" value="@advanceList.Select(x=>x.ApprovedAmount).Last()"  />
+            <input type="hidden" class="form-control" asp-for="ApprovedAmount" value="@advanceList.ApprovedAmount"  />
             <input type="hidden" class="form-control" asp-for="NextApproverOrRejecterID" value="@upperID" />
             <input type="hidden" class="form-control" asp-for="ApprovedDeclinedDate" value="@DateTime.Now" />
-            <input type="hidden" class="form-control" asp-for="ApprovalStatusID" value="@advanceList.Select(x=>x.ApprovalStatusID).Last()" />
+            <input type="hidden" class="form-control" asp-for="ApprovalStatusID" value="@advanceList.ApprovalStatusID" />
             <input type="hidden" class="form-control" asp-for="ApproverOrRejecterID" value="@nowID" />
             <input type="hidden" class="form-control" asp-for="TitleID" value="@titleID" />
-            <input type="hidden" class="form-control" asp-for="AdvanceID" value="@advanceList.Select(x=>x.AdvanceID).First()" />
+            <input type="hidden" class="form-control" asp-for="AdvanceID" value="@advanceList.AdvanceID" />
         </div>
 
     </div>

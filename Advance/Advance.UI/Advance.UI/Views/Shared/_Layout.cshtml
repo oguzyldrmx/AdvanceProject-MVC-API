@@ -68,7 +68,7 @@
                         </a>
                     </li>
                 }
-                @if (2<titleid && titleid<6)
+                @if (2 < titleid && titleid < 6)
                 {
                     <li class="nav-item">
                         <a class="nav-link text-white " asp-action="GetApprovePage" asp-controller="Advance">
@@ -89,6 +89,18 @@
 
                             </div>
                             <span class="nav-link-text ms-1">Ödeme Tarihi Bekleyen Talepler</span>
+                        </a>
+                    </li>
+                }
+                @if (titleid == 7)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-white " asp-action="GetOMPage" asp-controller="Advance">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">history</i>
+
+                            </div>
+                            <span class="nav-link-text ms-1">Avans Listeleri</span>
                         </a>
                     </li>
                 }
