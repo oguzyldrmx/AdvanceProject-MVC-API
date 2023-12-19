@@ -11,12 +11,13 @@ namespace Advance.ApplicationLayer.Abstract
 {
     public interface IAdvanceManager
     {
-        Task<List<AdvanceListDTO>> GetAdvances(int id);
-        Task<List<AdvanceDetailDTO>> GetDetails(int id);
-        Task<string> AdvanceInsert(AdvanceInsertDTO dto);
-        Task<string> AdvanceDetailsInsert(AdvanceDetailsInsertDTO dto);
+        Task<List<AdvanceListDTO>> GetAdvances(int id, string token);
+        Task<List<AdvanceDetailDTO>> GetDetails(int id, string token);
+        Task<string> AdvanceInsert(AdvanceInsertDTO dto, string token );
+        Task<string> AdvanceOMInsert(AdvanceOMDetailsInsertDTO dto, string token );
+        Task<string> AdvanceDetailsInsert(AdvanceDetailsInsertDTO dto, string token);
 
-        Task<List<ProjectDTO>> GetProjectsForWorker(int id);
+        Task<List<ProjectDTO>> GetProjectsForWorker(int id, string token);
 
         Task<List<AdvanceWhoIsApprovingDTO>> GetWhoIsApproving(int id);
 

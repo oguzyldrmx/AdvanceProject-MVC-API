@@ -21,13 +21,13 @@ namespace Advance.ApplicationLayer.Concrete
             _services = services;
         }
 
-        public async Task<List<AdvanceListDTO>> GetAdvances(int id)
+        public async Task<List<AdvanceListDTO>> GetAdvances(int id, string token)
         {
             try
             {
                 if (id == 0) throw new CustomException("Kullanıcının İD si alınamadı");
 
-                var data = await _services.GetAdvances(id);
+                var data = await _services.GetAdvances(id, token);
                 if (data == null)
                 {
                     throw new CustomException("Gecmis avanslar cekilirken hata oluştu");
@@ -37,17 +37,18 @@ namespace Advance.ApplicationLayer.Concrete
             }
             catch (Exception ex)
             {
+                
                 return null;
             }
         }
 
-        public async Task<List<AdvanceDetailDTO>> GetDetails(int id)
+        public async Task<List<AdvanceDetailDTO>> GetDetails(int id, string token)
         {
             try
             {
                 if (id == 0) throw new CustomException("Avans İD si alınamadı");
 
-                var data = await _services.GetDetails(id);
+                var data = await _services.GetDetails(id, token);
                 if (data == null)
                 {
                     throw new CustomException("Detaylar cekilirken hata oluştu");
@@ -61,7 +62,7 @@ namespace Advance.ApplicationLayer.Concrete
             }
         }
 
-        public async Task<string> AdvanceInsert(AdvanceInsertDTO dto)
+        public async Task<string> AdvanceInsert(AdvanceInsertDTO dto,string token)
         {
             try
             {
@@ -70,7 +71,7 @@ namespace Advance.ApplicationLayer.Concrete
                     throw new ArgumentNullException(nameof(dto));
                 }
 
-                var data = await _services.AdvanceInsert(dto);
+                var data = await _services.AdvanceInsert(dto,token);
                 if (data == null) return "Başarısız";
                 return "Başarılı";
             }
@@ -80,7 +81,7 @@ namespace Advance.ApplicationLayer.Concrete
             }
         }
 
-        public async Task<string> AdvanceDetailsInsert(AdvanceDetailsInsertDTO dto)
+        public async Task<string> AdvanceOMInsert(AdvanceOMDetailsInsertDTO dto, string token)
         {
             try
             {
@@ -89,7 +90,7 @@ namespace Advance.ApplicationLayer.Concrete
                     throw new ArgumentNullException(nameof(dto));
                 }
 
-                var data = await _services.AdvanceDetailsInsert(dto);
+                var data = await _services.AdvanceOMInsert(dto, token);
                 if (data == null) return "Başarısız";
                 return "Başarılı";
             }
@@ -99,13 +100,32 @@ namespace Advance.ApplicationLayer.Concrete
             }
         }
 
-        public async Task<List<ProjectDTO>> GetProjectsForWorker(int id)
+        public async Task<string> AdvanceDetailsInsert(AdvanceDetailsInsertDTO dto, string token)
+        {
+            try
+            {
+                if (dto == null)
+                {
+                    throw new ArgumentNullException(nameof(dto));
+                }
+
+                var data = await _services.AdvanceDetailsInsert(dto, token);
+                if (data == null) return "Başarısız";
+                return "Başarılı";
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<ProjectDTO>> GetProjectsForWorker(int id, string token)
         {
             try
             {
                 if (id == 0) throw new CustomException("Worker İD si alınamadı");
 
-                var data = await _services.GetProjectsForWorker(id);
+                var data = await _services.GetProjectsForWorker(id, token);
                 if (data == null)
                 {
                     throw new CustomException("Projeler cekilirken hata oluştu");

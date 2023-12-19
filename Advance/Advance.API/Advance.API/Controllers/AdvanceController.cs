@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Advance.API.Controllers
 {
-    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AdvanceController : ControllerBase
@@ -19,6 +18,7 @@ namespace Advance.API.Controllers
         {
             _advanceManager = advanceManager;
         }
+        [Authorize]
 
         [HttpGet("~/api/getadvances/{id}")]
         public async Task<IActionResult> GetAdvances(int id)
@@ -28,6 +28,7 @@ namespace Advance.API.Controllers
                 return NotFound();
             return Ok(data);
         }
+        [Authorize]
 
         [HttpGet("~/api/getdetails/{id}")]
         public async Task<IActionResult> GetDetails(int id)
@@ -57,6 +58,7 @@ namespace Advance.API.Controllers
 
             return Ok(data);
         }
+        [Authorize]
 
         [HttpPost("~/api/advanceinsert")]
         public async Task<string> AdvanceInsert([FromBody] AdvanceInsertDTO dto)
@@ -65,7 +67,13 @@ namespace Advance.API.Controllers
            
             return data;
         }
+        [HttpPost("~/api/advanceominsert")]
+        public async Task<string> AdvanceOMInsert([FromBody] AdvanceOMDetailsInsertDTO dto)
+        {
+            var data = await _advanceManager.InsertOMAdvance(dto);
 
+            return data;
+        }
         [HttpPost("~/api/advancedetailinsert")]
         public async Task<string> AdvanceDetailInsert([FromBody] AdvanceDetailsInsertDTO dto)
         {

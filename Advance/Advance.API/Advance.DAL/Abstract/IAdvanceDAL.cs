@@ -22,5 +22,8 @@ namespace Advance.DAL.Abstract
         Task<List<AdvanceWhoIsApprovingDTO>> GetWhoIsApproving(int workerID);
 
         Task<int> AdvanceInsertDetail(AdvanceDetailsInsertDTO dto);
+
+        Task<int> AdvanceOMInsert(AdvanceOMDetailsInsertDTO dto);
+
     }
 }

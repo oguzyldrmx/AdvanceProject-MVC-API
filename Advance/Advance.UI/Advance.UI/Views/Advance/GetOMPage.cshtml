@@ -22,7 +22,7 @@
     <div class="content">
 
         <div class="container">
-            <h2 class="mb-5">Detaylar</h2>
+            <h2 class="mb-5">Avans Talep Listesi</h2>
 
             <div class="table-responsive">
 
@@ -32,15 +32,17 @@
                             <th scope="col">Çalışanın Adı</th>
                             <th scope="col">Unvanı</th>
                             <th scope="col">Birimi</th>
-                            <th scope="col">Talep Durumu</th>
                             <th scope="col">Talep Tutarı</th>
                             <th scope="col">Talep Oluşturma Tarihi</th>
                             <th scope="col">İstenilen Tarih</th>
                             <th scope="col">Proje</th>
-                            <th scope="col">Son Onaylayan</th>
-                            <th scope="col">Son Onaylayan Unvan</th>
-                            <th scope="col">Son Onaylanma Tarihi</th>
-                            <th scope="col">Son Onaylanan Tutar</th>
+                            <th scope="col">Talep Durumu</th>
+                            <th scope="col">Onaylayan</th>
+                            <th scope="col">Onaylayan Unvan</th>
+                            <th scope="col">Onaylanma Tarihi</th>
+                            <th scope="col">Onaylanan Tutar</th>
+                            <th scope="col">Belirlenen Ödeme Tarihi</th>
+                            <th scope="col">Ödeme Yapılan Tarih</th>
                             <th scope="col">Detay</th>
                         </tr>
                     </thead>
@@ -53,16 +55,18 @@
                                     <td>@item.WorkerName</td>
                                     <td>@item.TitleName</td>
                                     <td>@item.UnitName</td>
-                                    <td>@item.ApprovalName</td>
                                     <td>@item.AdvanceAmount</td>
                                     <td>@item.RequestDate</td>
                                     <td>@item.DesiredDate</td>
                                     <td>@item.ProjectName</td>
+                                    <td>@item.ApprovalName</td>
                                     <td>@item.LastApproverOrRejecterName</td>
                                     <td>@item.LastApproverOrRejecterTitle</td>
                                     <td>@item.LastApprovedDate</td>
                                     <td>@item.ApprovedAmount</td>
-                                    <td><a asp-action="GetApprovePageDetails" asp-controller="Advance" asp-route-id="@item.AdvanceID" class="more" >Details</a></td>
+                                    <td>@item.DeterminedPaymentDate</td>
+                                    <td>@(item.ReceiptDate == DateTime.MinValue ? null : item.ReceiptDate)</td>
+                                    <td><a asp-action="GetApprovePageDetails" asp-controller="Advance" asp-route-id="@item.AdvanceID" class="more">Details</a></td>
                                 </tr>
 
                             }

@@ -141,7 +141,7 @@ namespace Advance.ApplicationLayer.Concrete
             try
             {
                 if (dto == null) throw new ArgumentNullException(nameof(dto));
-
+                var data = 0;
                 var advance = await _dal.GetAdvance(dto.AdvanceID);
                 var maxTitle = await _dal.GetMaxTitleForRule(advance.TitleAmountApprovalRuleID);
 
@@ -158,20 +158,31 @@ namespace Advance.ApplicationLayer.Concrete
                     {
                         dto.ApprovalStatusID++;
                         dto.isProcess = false;
+                        data = await _dal.AdvanceInsertDetail(dto);
+
                     }
-                    else if (dto.TitleID == maxTitle)
+                    else if (dto.TitleID == 6)
                     {
+                        dto.ApprovalStatusID = 8;
+                        dto.isProcess = false;
+                        data = await _dal.AdvanceInsertDetail(dto);
+
+                    }
+                    
+                    else if (dto.TitleID >= maxTitle)
+                    {
+                        dto.ApprovalStatusID++;
+                        dto.NextApproverOrRejecterID = 16;
+                        await _dal.AdvanceInsertDetail(dto);
+                        
                         dto.ApprovalStatusID = 7;
                         dto.isProcess = false;
-                        
+                        data = await _dal.AdvanceInsertDetail(dto);
                     }
-                    else
-                    {
-                        dto.ApprovalStatusID = 6;
-                        dto.isProcess = false;
-                    }
+                   
+                   
                 }
-                var data = await _dal.AdvanceInsertDetail(dto);
+                
 
                 if (data > 0)
                 {
@@ -179,6 +190,27 @@ namespace Advance.ApplicationLayer.Concrete
                 }
 
                 return "Avans detayı oluştururken bir hatayla karşılaşıldı.";
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public async Task<string> InsertOMAdvance(AdvanceOMDetailsInsertDTO dto)
+        {
+            try
+            {
+                if (dto == null) throw new ArgumentNullException(nameof(dto));
+
+                var data = await _dal.AdvanceOMInsert(dto);
+
+                if (data > 0)
+                {
+                    return "Avans Oluşturuldu";
+                }
+
+                return "Avans oluştururken bir hatayla karşılaşıldı.";
             }
             catch (Exception e)
             {

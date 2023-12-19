@@ -71,7 +71,7 @@
                                     <td>@item.ApprovalRejectedTitle</td>
                                     <td>@item.ApprovedDeclinedDate</td>
                                     <td>@item.ApprovedAmount</td>
-                                    <td>@item.DeterminedPaybackDate</td>
+                                    <td>@(item.DeterminedPaymentDate == DateTime.MinValue ? (DateTime?)null : item.DeterminedPaymentDate)</td>
                                     <td>@item.PaybackDate</td>
                                     <td>@item.PaybackStatus</td>
                                     <td><a asp-action="GetDetails" asp-controller="Advance" asp-route-id="@item.AdvanceID" class="more">Details</a></td>

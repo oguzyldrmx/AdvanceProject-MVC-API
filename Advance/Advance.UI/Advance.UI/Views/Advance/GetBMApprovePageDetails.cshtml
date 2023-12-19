@@ -1,5 +1,5 @@
 ﻿@{
-    List<AdvanceWhoIsApprovingDTO> advanceList = (List<AdvanceWhoIsApprovingDTO>)ViewData["projectList"];
+    AdvanceWhoIsApprovingDTO advanceList = (AdvanceWhoIsApprovingDTO)ViewData["projectList"];
     int i = 0;
     int upperID = int.Parse(User.FindFirst(ClaimTypes.UserData)?.Value);
     int nowID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
@@ -32,13 +32,13 @@
                 <div class="card col-md-5">
 
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><span>Çalışanın Adı:</span>@advanceList.Select(x=>x.WorkerName).First()</li>
-                        <li class="list-group-item"><span>Unvanı:</span>@advanceList.Select(x=>x.TitleName).First()</li>
-                        <li class="list-group-item"><span>Birimi:</span>@advanceList.Select(x=>x.UnitName).First()</li>
-                        <li class="list-group-item"><span>Talep Oluşturma Tarihi:</span>@advanceList.Select(x=>x.RequestDate).First()</li>
-                        <li class="list-group-item"><span>Alınmak istenen Tarih:</span>@advanceList.Select(x=>x.DesiredDate).First()</li>
+                        <li class="list-group-item"><span>Çalışanın Adı:</span>@advanceList.WorkerName</li>
+                        <li class="list-group-item"><span>Unvanı:</span>@advanceList.TitleName</li>
+                        <li class="list-group-item"><span>Birimi:</span>@advanceList.UnitName</li>
+                        <li class="list-group-item"><span>Talep Oluşturma Tarihi:</span>@advanceList.RequestDate</li>
+                        <li class="list-group-item"><span>Alınmak istenen Tarih:</span>@advanceList.DesiredDate</li>
 
-                        <li class="list-group-item"><span>Projeler:</span>@advanceList.Select(x=>x.ProjectName).First()</li>
+                        <li class="list-group-item"><span>Projeler:</span>@advanceList.ProjectName</li>
 
 
                     </ul>
@@ -46,13 +46,13 @@
                 <div class="col-md-1"></div>
                 <div class="card col-md-5">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><span>Talep Edilen Tutar:</span>@advanceList.Select(x=>x.AdvanceAmount).First()</li>
+                        <li class="list-group-item"><span>Talep Edilen Tutar:</span>@advanceList.AdvanceAmount</li>
 
-                        <li class="list-group-item"><span>Onaylanan Tutar:</span>@advanceList.Select(x=>x.ApprovedAmount).Last()</li>
+                        <li class="list-group-item"><span>Onaylanan Tutar:</span>@advanceList.ApprovedAmount</li>
 
-                        <li class="list-group-item"><span>Son Durumu:</span>@advanceList.Select(x=>x.ApprovalName).Last()</li>
+                        <li class="list-group-item"><span>Son Durumu:</span>@advanceList.ApprovalName</li>
 
-                        <li class="list-group-item"><span>Açıklama:</span>@advanceList.Select(x=>x.AdvanceExplanation).First()</li>
+                        <li class="list-group-item"><span>Açıklama:</span>@advanceList.AdvanceExplanation</li>
                     </ul>
                 </div>
 
@@ -67,10 +67,10 @@
                         <input type="number" class="form-control" asp-for="ApprovedAmount" placeholder="TL" required />
                         <input type="hidden" class="form-control" asp-for="NextApproverOrRejecterID"  value="@upperID"  />
                         <input type="hidden" class="form-control" asp-for="ApprovedDeclinedDate" value="@DateTime.Now"  />
-                        <input type="hidden" class="form-control" asp-for="ApprovalStatusID" value="@advanceList.Select(x=>x.ApprovalStatusID).Last()"  />
+                        <input type="hidden" class="form-control" asp-for="ApprovalStatusID" value="@advanceList.ApprovalStatusID"  />
                         <input type="hidden" class="form-control" asp-for="ApproverOrRejecterID" value="@nowID"  />
                         <input type="hidden" class="form-control" asp-for="TitleID" value="@titleID"  />
-                        <input type="hidden" class="form-control" asp-for="AdvanceID" value="@advanceList.Select(x=>x.AdvanceID).First()" />
+                        <input type="hidden" class="form-control" asp-for="AdvanceID" value="@advanceList.AdvanceID" />
                     </div>
 
                 </div>

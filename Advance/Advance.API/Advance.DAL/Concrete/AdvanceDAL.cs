@@ -94,6 +94,7 @@ namespace Advance.DAL.Concrete
 
                     var rule = GetRule(dto.AdvanceAmount);
                     dto.TitleAmountApprovalRuleID = rule;
+                   
 
                     var advance = conn.ExecuteScalar<int>(queryAdvance, new
                     {
@@ -106,6 +107,8 @@ namespace Advance.DAL.Concrete
                         ProjectID = dto.ProjectID
                     },transaction);
 
+                    int next = 0;
+                   
                     var queryApproval =
                         "insert into AdvanceApproveStatus(AdvanceID,ApproverOrRejecterID,[Approved/DeclinedDate],ApprovalStatusID,ApprovedAmount,NextApproverOrRejecterID,isProcess)  values(@AdvanceID,  @ApproverOrRejecterID,@ApprovedDeclinedDate,@ApprovalStatusID,@ApprovedAmount,@NextApproverOrRejecterID,@isProcess)";
                     var parameters = new DynamicParameters();
@@ -155,7 +158,7 @@ namespace Advance.DAL.Concrete
         {
             int etkilenenSatirSayisi = 0;
             var queryApproval =
-                "insert into AdvanceApproveStatus(AdvanceID,ApproverOrRejecterID,[Approved/DeclinedDate],ApprovalStatusID,ApprovedAmount,NextApproverOrRejecterID,isProcess)  values(@AdvanceID,  @ApproverOrRejecterID,@ApprovedDeclinedDate,@ApprovalStatusID,@ApprovedAmount,@NextApproverOrRejecterID,@isProcess)";
+                "insert into AdvanceApproveStatus(AdvanceID,ApproverOrRejecterID,[Approved/DeclinedDate],ApprovalStatusID,ApprovedAmount,NextApproverOrRejecterID,isProcess,DeterminedPaymentDate)  values(@AdvanceID,  @ApproverOrRejecterID,@ApprovedDeclinedDate,@ApprovalStatusID,@ApprovedAmount,@NextApproverOrRejecterID,@isProcess,@DeterminedPaymentDate)";
             using var conn = _con.CreateConnection();
             var parameters = new DynamicParameters();
             parameters.Add("AdvanceID", dto.AdvanceID, DbType.Int32);
@@ -165,8 +168,80 @@ namespace Advance.DAL.Concrete
             parameters.Add("ApprovedAmount", dto.ApprovedAmount, DbType.Decimal);
             parameters.Add("NextApproverOrRejecterID", dto.NextApproverOrRejecterID, DbType.Int32);
             parameters.Add("isProcess", dto.isProcess, DbType.Boolean);
+            parameters.Add("DeterminedPaymentDate", dto.DeterminedPaymentDate < DateTime.Now ? null : dto.DeterminedPaymentDate, DbType.DateTime);
+
+
             etkilenenSatirSayisi = conn.Execute(queryApproval, parameters);
             return etkilenenSatirSayisi;
+        }
+
+        public async Task<int> AdvanceOMInsert(AdvanceOMDetailsInsertDTO dto)
+        {
+            if (dto == null) return 0;
+
+            var conn = _con.CreateConnection();
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+
+            int etkilenenSatirSayisi = 0;
+
+            using (var transaction = conn.BeginTransaction())
+            {
+                try
+                {
+                    var queryApproval =
+                        "insert into AdvanceApproveStatus(AdvanceID,ApproverOrRejecterID,[Approved/DeclinedDate],ApprovalStatusID,ApprovedAmount,NextApproverOrRejecterID,isProcess,DeterminedPaymentDate)  values(@AdvanceID,  @ApproverOrRejecterID,@ApprovedDeclinedDate,@ApprovalStatusID,@ApprovedAmount,@NextApproverOrRejecterID,@isProcess,@DeterminedPaymentDate)";
+                    var parameters = new DynamicParameters();
+                    parameters.Add("AdvanceID", dto.AdvanceID, DbType.Int32);
+                    parameters.Add("ApprovalStatusID", 11, DbType.Int32);
+                    parameters.Add("ApproverOrRejecterID", dto.ApproverOrRejecterID, DbType.Int32);
+                    parameters.Add("ApprovedDeclinedDate", DateTime.Now, DbType.DateTime);
+                    parameters.Add("ApprovedAmount", dto.ApprovedAmount, DbType.Decimal);
+                    parameters.Add("NextApproverOrRejecterID", null, DbType.Int32);
+                    parameters.Add("isProcess", true, DbType.Boolean);
+                    parameters.Add("DeterminedPaymentDate", dto.DeterminedPaymentDate, DbType.DateTime);
+
+                    conn.ExecuteScalar(queryApproval, parameters, transaction);
+
+                    var queryPayment =
+                        "insert into PaymentReceipt(PaymentReceiptID,ReceiptDate,ReceiptDescription,DeterminedPaybackDate) values(@ID,@ReceiptDate,@ReceiptDescription,@DeterminedPaybackDate)";
+                    var parametersPayment = new DynamicParameters();
+                    parametersPayment.Add("ID", dto.ReceiptNo, DbType.Int32);
+                    parametersPayment.Add("ReceiptDate", dto.ReceiptDate, DbType.DateTime);
+                    parametersPayment.Add("ReceiptDescription", null, DbType.String);
+                    parametersPayment.Add("DeterminedPaybackDate", dto.DeterminedPaymentDate, DbType.DateTime);
+
+                    conn.ExecuteScalar(queryPayment, parametersPayment, transaction);
+
+                    var queryAdvanceReceipt =
+                        "insert into AdvanceReceipt(AdvanceID,PaymantReceiptID,PaybackReceiptID,PaybackDate) values (@AdvanceID,@PaymantReceiptID,@PaybackReceiptID,@PaybackDate)";
+                    var parametersAdvanceReceipt = new DynamicParameters();
+                    parametersAdvanceReceipt.Add("AdvanceID", dto.AdvanceID, DbType.Int32);
+                    parametersAdvanceReceipt.Add("PaymantReceiptID", dto.ReceiptNo, DbType.Int32);
+                    parametersAdvanceReceipt.Add("PaybackReceiptID", null, DbType.Int32);
+                    parametersAdvanceReceipt.Add("PaybackDate", dto.DeterminedPaymentDate, DbType.DateTime);
+
+                    etkilenenSatirSayisi = conn.Execute(queryAdvanceReceipt, parametersAdvanceReceipt, transaction);
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    etkilenenSatirSayisi = 0;
+
+                }
+                finally
+                {
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        conn.Close();
+                    }
+                }
+
+                return etkilenenSatirSayisi;
+            }
         }
 
         public int GetRule(decimal amount)

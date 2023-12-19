@@ -22,7 +22,8 @@ namespace Advance.DTOs.DTOs.AdvanceDTOs
         public string? ApprovalRejectedTitle { get; set; }
         public decimal? ApprovedAmount { get; set; }
         public DateTime? ApprovedDeclinedDate { get; set; }
-        public DateTime? DeterminedPaybackDate { get; set; }
+        public DateTime DeterminedPaymentDate { get; set; }
+
         public DateTime? PaybackDate { get; set; }
         public string PaybackStatus { get; set; }
     }
